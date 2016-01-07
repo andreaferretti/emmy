@@ -3,7 +3,7 @@ Emmy
 
 Algebraic structures and related operations for Nim.
 
-![logo](https://raw.githubusercontent.com/unicredit/emmy/master/docs/emmy.png)
+![logo](https://raw.githubusercontent.com/unicredit/emmy/master/emmy.png)
 
 Status
 ------
