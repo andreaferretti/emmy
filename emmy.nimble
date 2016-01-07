@@ -20,7 +20,7 @@ author        = "Andrea Ferretti"
 description   = "Algebra for Nim"
 license       = "Apache2"
 skipDirs      = @["tests"]
-skipFiles     = @["emmy.html"]
+skipFiles     = @["emmy.html", "emmy.png"]
 
 requires "nim >= 0.11.2"
 
