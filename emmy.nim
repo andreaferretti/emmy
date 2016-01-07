@@ -12,10 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sequtils
+import sequtils, math, intsets, algorithm
 
 include private/structures
 include private/modular
 include private/operations
 include private/quotient
 include private/polynomials
+include private/primality
