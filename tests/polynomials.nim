@@ -73,3 +73,13 @@ suite "test polynomials implementation":
       q = poly(1.quot, -3.quot, 6.quot, 8.quot)
     check(q div p == poly(6 /// 25, 8 /// 5))
     check(q %% p == poly(13 /// 25, -173 /// 25))
+
+suite "test polynomials DSL":
+  test "polynomial sum":
+    variable X
+    let
+      p = 2 + 3 * X + 5 * X * X
+      q = 1 - 3 * X + 6 * X * X + 8 * X * X * X
+      r = 3 + 11 * X * X + 8 * X * X * X
+
+    check(p + q == r)

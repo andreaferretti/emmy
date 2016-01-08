@@ -36,6 +36,21 @@ proc reduce[I: static[string], A](p: Polynomial[I, A]): Polynomial[I, A] =
 
 proc poly*[A](a: varargs[A]): auto = polynomial("X", a)
 
+proc monomial*[A](I: static[string], n: int, a: A): Polynomial[I, A] =
+  var c = newSeq[A](n + 1)
+  for i in 0 .. < n:
+    c[i] = zero(a)
+  c[n] = a
+  polynomial(I, c)
+
+template v(symbol, id: untyped): auto {.immediate.} =
+  const vname {.gensym.} = symbol
+  let id {.inject.} = monomial(vname, 1, 1)
+
+macro variable*(id: untyped): stmt =
+  let symbol = newStrLitNode($(id))
+  result = getAst(v(symbol, id))
+
 proc deg*[I: static[string], A](p: Polynomial[I, A]): int {.inline.} =
   p.coefficients.len - 1
 
@@ -44,10 +59,19 @@ proc top*[I: static[string], A](p: Polynomial[I, A]): A {.inline.} =
 
 proc `$`*[I: static[string], A](p: Polynomial[I, A]): string =
   result = ""
+  var first = true
   for i in 0 .. deg(p):
-    if i == 0: result &= $(p.coefficients[i])
-    elif i == 1: result &= " + " & $(p.coefficients[i]) & "*" & I
-    else: result &= " + " & $(p.coefficients[i]) & "*" & I & "^"  & $(i)
+    let x = p.coefficients[i]
+    if x != zero(x):
+      if not first: result &= " + "
+      first = false
+      if i == 0: result &= $(x)
+      elif i == 1:
+        if x == id(x): result &= I
+        else: result &= $(x) & "*" & I
+      else:
+        if x == id(x): result &= I & "^"  & $(i)
+        else: result &= $(x) & "*" & I & "^"  & $(i)
 
 proc zero*(I: static[string], A: typedesc): Polynomial[I, A] =
   Polynomial[I, A](coefficients: @[])
@@ -128,13 +152,6 @@ proc `*`*[I: static[string], A](p: A, q: Polynomial[I, A]): Polynomial[I, A] =
 template `*=`*[I: static[string], A](a: var Polynomial[I, A], b: Polynomial[I, A]) =
   let c = a
   a = c * b
-
-proc monomial[A](I: static[string], n: int, a: A): Polynomial[I, A] =
-  var c = newSeq[A](n + 1)
-  for i in 0 .. < n:
-    c[i] = zero(a)
-  c[n] = a
-  polynomial(I, c)
 
 proc division*[I: static[string], A](s, t: Polynomial[I, A]): tuple[q: Polynomial[I, A], r: Polynomial[I, A]] =
   if deg(t) > deg(s): (zero(I, A), s)

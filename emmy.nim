@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sequtils, math, intsets, algorithm
+import sequtils, math, intsets, algorithm, macros
 
 include private/structures
 include private/modular
