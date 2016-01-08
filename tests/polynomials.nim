@@ -15,13 +15,14 @@
 import emmy, unittest
 
 suite "test polynomials implementation":
+  const X = "X"
   let
     p = poly(2, 3, 5)
     q = poly(1, -3, 6, 8)
 
   test "polynomial reduction":
-    check(poly(0) == poly[int]())
-    check(poly(0, 0, 0, 0, 0) == poly[int]())
+    check(poly(0) == zero(X, int))
+    check(poly(0, 0, 0, 0, 0) == zero(X, int))
     check(poly(3, 4, 5, 0, 0) == poly(3, 4, 5))
 
   test "polynomial sum":
