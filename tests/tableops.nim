@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sequtils, math, intsets, algorithm, macros, tables
+import emmy, unittest, tables
 
-include private/structures
-include private/modular
-include private/operations
-include private/tableops
-include private/quotient
-include private/polynomials
-include private/primality
+suite "operations on tables":
+  test "tables with monoid values are a monoid":
+    let
+      a = { "a": 1, "b": 2 }.newTable
+      b = { "c": 3, "b": 5 }.newTable
+      c = { "a": 1, "c": 3, "b": 7 }.newTable
+    check(a + b == c)

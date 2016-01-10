@@ -12,12 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sequtils, math, intsets, algorithm, macros, tables
-
-include private/structures
-include private/modular
-include private/operations
-include private/tableops
-include private/quotient
-include private/polynomials
-include private/primality
+proc `+`*[K; V: AdditiveMonoid](s, t: TableRef[K, V]): TableRef[K, V] =
+  new result
+  result[] = initTable[K, V]()
+  for k, v in s:
+    if t.hasKey(k):
+      result[k] = v + t[k]
+    else:
+      result[k] = v
+  for k, v in t:
+    if not s.hasKey(k):
+      result[k] = v
