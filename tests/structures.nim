@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import emmy, unittest
+import emmy, unittest, tables
 
 suite "known type implement appropriate typeclasses":
   test "integers are an Euclidean ring":
@@ -24,3 +24,7 @@ suite "known type implement appropriate typeclasses":
     check(1.0 is Field)
     check(1'f32 is Field)
     check(1'f64 is Field)
+
+  test "tables with monoid values are an additive monoid":
+    let a = { "a": 1, "b": 2 }.newTable
+    check(a is AdditiveMonoid)
