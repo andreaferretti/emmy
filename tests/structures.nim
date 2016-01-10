@@ -15,7 +15,12 @@
 import emmy, unittest
 
 suite "known type implement appropriate typeclasses":
-  test "ints are an Euclidean ring":
+  test "integers are an Euclidean ring":
     check(1 is EuclideanRing)
     check(1'i32 is EuclideanRing)
     check(1'i64 is EuclideanRing)
+
+  test "reals are a field":
+    check(1.0 is Field)
+    check(1'f32 is Field)
+    check(1'f64 is Field)

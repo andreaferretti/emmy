@@ -40,9 +40,13 @@ type
 proc zero*(x: int): int = 0
 proc zero*(x: int32): int32 = 0
 proc zero*(x: int64): int64 = 0
-proc zero*(x: float): float = 0
+# proc zero*(x: float): float = 0
+proc zero*(x: float32): float32 = 0
+proc zero*(x: float64): float64 = 0
 
 proc id*(x: int): int = 1
 proc id*(x: int32): int32 = 1
 proc id*(x: int64): int64 = 1
-proc id*(x: float): float = 1
+# proc id*(x: float): float = 1
+proc id*(x: float32): float32 = 1
+proc id*(x: float64): float64 = 1
