@@ -12,4 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import structures, operations, quotient, polynomials, primality
+import emmy, unittest
+
+suite "known type implement appropriate typeclasses":
+  test "ints are an Euclidean ring":
+    check(1 is EuclideanRing)
+    check(1'i32 is EuclideanRing)
+    check(1'i64 is EuclideanRing)
