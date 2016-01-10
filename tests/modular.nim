@@ -12,4 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import structures, operations, modular, quotient, polynomials, primality
+import emmy, unittest
+
+suite "test dynamic modular operations":
+  test "modular sum":
+    let
+      a = 3.modulo(7)
+      b = 5.modulo(7)
+    check (a + b == 1.modulo(7))
