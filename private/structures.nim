@@ -13,20 +13,29 @@
 # limitations under the License.
 
 type
-  AdditiveGroup* = concept x, y
+  AdditiveMonoid* = concept x, y
     x + y is type(x)
     zero(x) is type(x)
-  Ring* = concept x, y
-    x is AdditiveGroup
+  AdditiveGroup* = concept x, y
+    x is AdditiveMonoid
+    -x is type(x)
+    x - y is type(x)
+  MultiplicativeMonoid* = concept x, y
     x * y is type(x)
     id(x) is type(x)
+  MultiplicativeGroup* = concept x, y
+    x is MultiplicativeMonoid
+    x / y is type(x)
+  Ring* = concept x
+    x is AdditiveGroup
+    x is MultiplicativeMonoid
   EuclideanRing* = concept x, y
     x is Ring
     x div y is type(x)
     x %% y is type(x)
-  Field* = concept x, y
+  Field* = concept x
     x is Ring
-    x / y is type(x)
+    x is MultiplicativeGroup
 
 proc zero*(x: int): int = 0
 proc zero*(x: int32): int32 = 0
