@@ -12,13 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import emmy, unittest, tables
+import emmy, unittest, tables, bigints
 
 suite "known type implement appropriate typeclasses":
   test "integers are an Euclidean ring":
     check(1 is EuclideanRing)
     check(1'i32 is EuclideanRing)
     check(1'i64 is EuclideanRing)
+
+  test "big integers are an Euclidean ring":
+    check(initBigInt(1) is EuclideanRing)
 
   test "reals are a field":
     check(1.0 is Field)
