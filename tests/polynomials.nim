@@ -74,6 +74,12 @@ suite "test polynomials implementation":
     check(q div p == poly(6 /// 25, 8 /// 5))
     check(q %% p == poly(13 /// 25, -173 /// 25))
 
+  test "polynomials with modular coefficients":
+    let
+      p = poly(2.modulo(5), 3.modulo(5), 4.modulo(5))
+      q = poly(1.modulo(5), 2.modulo(5), 1.modulo(5))
+    check(p + q == 3.modulo(5))
+
 suite "test polynomials DSL":
   test "polynomial sum":
     variable X
