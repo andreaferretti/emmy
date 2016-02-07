@@ -12,13 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sequtils, math, intsets, algorithm, macros, tables, bigints
+import emmy, unittest
 
-include private/structures
-include private/modular
-include private/operations
-include private/tableops
-include private/quotient
-include private/polynomials
-include private/linear
-include private/primality
+suite "test linear algebra operations":
+  test "operations over vectors":
+    let
+      v = @[1, 2, 3, 4, 5]
+      w = @[3, 2, 5, 1, 1]
+    check(v + w == @[4, 4, 8, 5, 6])
+    check(v - w == @[-2, 0, -2, 3, 4])
