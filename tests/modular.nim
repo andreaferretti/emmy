@@ -20,3 +20,33 @@ suite "test dynamic modular operations":
       a = 3.modulo(7)
       b = 5.modulo(7)
     check (a + b == 1.modulo(7))
+
+  test "modular difference":
+    let
+      a = 3.modulo(7)
+      b = 5.modulo(7)
+    check (a - b == 5.modulo(7))
+
+  test "modular multiplication":
+    let
+      a = 3.modulo(7)
+      b = 5.modulo(7)
+    check (a * b == 1.modulo(7))
+
+    test "modular sum with an integer":
+      let
+        a = 3.modulo(7)
+        b = 5
+      check (a + b == 1.modulo(7))
+
+    test "modular difference with an integer":
+      let
+        a = 3.modulo(7)
+        b = 5
+      check (a - b == 5.modulo(7))
+
+    test "modular multiplication with an integer":
+      let
+        a = 3.modulo(7)
+        b = 5
+      check (a * b == 1.modulo(7))

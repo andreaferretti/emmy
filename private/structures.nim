@@ -32,7 +32,7 @@ type
   EuclideanRing* = concept x, y
     x is Ring
     x div y is type(x)
-    x %% y is type(x)
+    x mod y is type(x)
   Field* = concept x
     x is Ring
     x is MultiplicativeGroup

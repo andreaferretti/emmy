@@ -15,39 +15,45 @@
 type Modular*[A] = object
   a, m: A
 
-proc `$`*[A](x: Modular[A]): string =
+proc `$`*[A: EuclideanRing](x: Modular[A]): string =
   result = ""
   result.add($(x.a))
   result.add(" mod ")
   result.add($(x.m))
 
-proc modulo*[A](a, m: A): Modular[A] = Modular[A](a: a mod m, m: m)
+proc modulo*[A: EuclideanRing](a, m: A): Modular[A] = Modular[A](a: a mod m, m: m)
 
-proc lift*[A](x: Modular[A]): A = x.a
+proc lift*[A: EuclideanRing](x: Modular[A]): A = x.a
 
-proc `+`*[A](x, y: Modular[A]): Modular[A] =
+proc `+`*[A: EuclideanRing](x, y: Modular[A]): Modular[A] =
   assert x.m == y.m
   (x.a + y.a).modulo(x.m)
 
-proc `-`*[A](x, y: Modular[A]): Modular[A] =
+proc `+`*[A: EuclideanRing](x: Modular[A], y: A): Modular[A] =
+  (x.a + y).modulo(x.m)
+
+proc `-`*[A: EuclideanRing](x, y: Modular[A]): Modular[A] =
   assert x.m == y.m
   (x.a - y.a).modulo(x.m)
 
-proc `-`*[A](x: Modular[A]): Modular[A] =
+proc `-`*[A: EuclideanRing](x: Modular[A], y: A): Modular[A] =
+  (x.a - y).modulo(x.m)
+
+proc `-`*[A: EuclideanRing](x: Modular[A]): Modular[A] =
   Modular[A](a: x.m - x.a, m: x.m)
 
 proc `*`*[A](x, y: Modular[A]): Modular[A] =
   assert x.m == y.m
   (x.a * y.a).modulo(x.m)
 
-proc `*`*[A](x: Modular[A], y: A): Modular[A] =
+proc `*`*[A: EuclideanRing](x: Modular[A], y: A): Modular[A] =
   (x.a * y).modulo(x.m)
 
-proc `==`*[A](x, y: Modular[A]): bool =
-  (x.m == y.m) and ((x.a - y.a mod x.m) == 0)
+proc `==`*[A: EuclideanRing](x, y: Modular[A]): bool =
+  (x.m == y.m) and (((x.a - y.a) mod x.m) == 0)
 
 proc id*[A](x: Modular[A]): Modular[A] =
   id(x.a).modulo(x.m)
 
-proc zero*[A](x: Modular[A]): Modular[A] =
+proc zero*[A: EuclideanRing](x: Modular[A]): Modular[A] =
   zero(x.a).modulo(x.m)
