@@ -21,3 +21,4 @@ suite "test linear algebra operations":
       w = @[3, 2, 5, 1, 1]
     check(v + w == @[4, 4, 8, 5, 6])
     check(v - w == @[-2, 0, -2, 3, 4])
+    check(v * w == 31)
