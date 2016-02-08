@@ -22,3 +22,11 @@ suite "test linear algebra operations":
     check(v + w == @[4, 4, 8, 5, 6])
     check(v - w == @[-2, 0, -2, 3, 4])
     check(v * w == 31)
+
+test "in place operations over vectors":
+  var v = @[1, 2, 3, 4, 5]
+  let w = @[3, 2, 5, 1, 1]
+  v += w
+  check(v == @[4, 4, 8, 5, 6])
+  v -= @[1, 2, 3, 4, 5]
+  check(v == w)

@@ -21,7 +21,7 @@ type
     M, N: int
     data: seq[A]
 
-proc `+=`*[A: AdditiveGroup](v: var Vector[A], w: Vector[A]): Vector[A] =
+proc `+=`*[A: AdditiveGroup](v: var Vector[A], w: Vector[A]) =
   assert v.len == w.len
   for i in 0 .. < v.len:
     v[i] = v[i] + w[i]
@@ -32,7 +32,7 @@ proc `+`*[A: AdditiveGroup](v, w: Vector[A]): Vector[A] =
   for i in 0 .. < v.len:
     result[i] = v[i] + w[i]
 
-proc `-=`*[A: AdditiveGroup](v: var Vector[A], w: Vector[A]): Vector[A] =
+proc `-=`*[A: AdditiveGroup](v: var Vector[A], w: Vector[A]) =
   assert v.len == w.len
   for i in 0 .. < v.len:
     v[i] = v[i] - w[i]
