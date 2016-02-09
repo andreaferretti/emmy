@@ -48,3 +48,24 @@ proc `*`*[A: Ring](v, w: Vector[A]): A =
   result = zero(v[0])
   for i in 0 .. < v.len:
     result += v[i] * w[i]
+
+proc makeMatrix*[A](M, N: int, f: proc(i, j: int): A, order = colMajor): Matrix[A] =
+  result.data = newSeq[A](M * N)
+  result.M = M
+  result.N = N
+  result.order = order
+  if order == colMajor:
+    for i in 0 .. < M:
+      for j in 0 .. < N:
+        result.data[j * M + i] = f(i, j)
+  else:
+    for i in 0 .. < M:
+      for j in 0 .. < N:
+        result.data[i * N + j] = f(i, j)
+
+proc matrix*[A](xs: seq[seq[A]], order = colMajor): Matrix[A] =
+  makeMatrix(xs.len, xs[0].len, proc(i, j: int): A = xs[i][j], order)
+
+template `[]`*[A](m: Matrix[A], i, j: int): A =
+  if m.order == colMajor: m.data[j * m.M + i]
+  else: m.data[i * m.N + j]

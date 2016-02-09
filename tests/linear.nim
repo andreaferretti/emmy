@@ -23,10 +23,17 @@ suite "test linear algebra operations":
     check(v - w == @[-2, 0, -2, 3, 4])
     check(v * w == 31)
 
-test "in place operations over vectors":
-  var v = @[1, 2, 3, 4, 5]
-  let w = @[3, 2, 5, 1, 1]
-  v += w
-  check(v == @[4, 4, 8, 5, 6])
-  v -= @[1, 2, 3, 4, 5]
-  check(v == w)
+  test "in place operations over vectors":
+    var v = @[1, 2, 3, 4, 5]
+    let w = @[3, 2, 5, 1, 1]
+    v += w
+    check(v == @[4, 4, 8, 5, 6])
+    v -= @[1, 2, 3, 4, 5]
+    check(v == w)
+
+  test "matrix accessors":
+    let m = matrix(@[
+      @[1, 2, 3, 4],
+      @[2, 3, 5, 2]
+    ])
+    check(m[1, 2] == 5)
