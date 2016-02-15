@@ -99,6 +99,24 @@ suite "test linear algebra operations":
       v = @[1, 3, 5, 2]
     check(m * v == @[30, 40])
 
+  test "matrix product":
+    let
+      m = matrix(@[
+        @[1, 2, 3, 4],
+        @[2, 3, 5, 2]
+      ])
+      n = matrix(@[
+        @[1, 2, 3],
+        @[1, 3, 1],
+        @[2, 1, 0],
+        @[1, 2, 1]
+      ])
+      p = matrix(@[
+        @[13, 19, 9],
+        @[17, 22, 11]
+      ])
+    check(m * n == p)
+
   test "matrix transpose":
     let
       m = matrix(@[

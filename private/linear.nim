@@ -148,6 +148,26 @@ proc `*`*[A: Ring](m: Matrix[A], v: Vector[A]): Vector[A] =
       for j in 0 .. < m.N:
         result[i] += m.data[rowM(i, j, m.M, m.N)] * v[j]
 
+template multiply(result, m, n, data_m, data_n: expr) =
+  for i in 0 .. < result.M:
+    for j in 0 .. < result.N:
+      result.data[colM(i, j, result.M, result.N)] = zero(m.data[0])
+      for k in 0 .. < m.N:
+        result.data[colM(i, j, result.M, result.N)] += m.data[data_m(i, k, m.M, m.N)] * n.data[data_n(k, j, n.M, n.N)]
+
+proc `*`*[A: Ring](m, n: Matrix[A]): Matrix[A] =
+  assert m.N == n.M
+  result = Matrix[A](
+    M: m.M,
+    N: n.N,
+    order: colMajor,
+    data: newSeq[A](m.M * n.N)
+  )
+  if m.order == colMajor and n.order == colMajor: multiply(result, m, n, colM, colM)
+  elif m.order == colMajor and n.order == rowMajor: multiply(result, m, n, colM, rowM)
+  elif m.order == rowMajor and n.order == colMajor: multiply(result, m, n, rowM, colM)
+  else: multiply(result, m, n, rowM, rowM)
+
 proc t*[A](m: Matrix[A]): Matrix[A] =
   result = Matrix[A](
     M: m.N,
