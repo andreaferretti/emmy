@@ -184,3 +184,24 @@ suite "test linear algebra operations":
     check(p == n)
     m[1, 1] = -3
     check(p[1, 1] == -3)
+
+  test "matrix to vector":
+    let
+      m = matrix(@[
+        @[2, 1, -1, 4],
+        @[0, 1, 1, 5]
+      ])
+      v = @[2, 0, 1, 1, -1, 1, 4, 5]
+    check(m.toVector == v)
+
+  test "matrix to vector sharing":
+    var m = matrix(@[
+      @[2, 1, -1, 4],
+      @[0, 1, 1, 5]
+    ])
+    let
+      v = @[2, 0, 1, 1, -1, 1, 4, 5]
+      w = m.toVector
+    check(w == v)
+    m[0, 0] = 0
+    check(w[0] == 0)

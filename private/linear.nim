@@ -176,3 +176,6 @@ proc t*[A](m: Matrix[A]): Matrix[A] =
     data: nil
   )
   shallowCopy(result.data, m.data)
+
+proc toVector*[A](m: Matrix[A]): Vector[A] =
+  shallowCopy(result, m.data)
