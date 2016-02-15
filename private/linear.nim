@@ -127,3 +127,10 @@ proc `-`*[A: AdditiveGroup](m, n: Matrix[A]): Matrix[A] =
   assert m.data.len == n.data.len
   result = m
   result -= n
+
+proc t*[A](m: Matrix[A]): Matrix[A] = Matrix[A](
+  M: m.N,
+  N: m.M,
+  order: (if m.order == colMajor: rowMajor else: colMajor),
+  data: m.data
+)

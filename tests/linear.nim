@@ -77,3 +77,18 @@ suite "test linear algebra operations":
     check(m == p)
     m -= n
     check(m == m1)
+
+  test "matrix transpose":
+    let
+      m = matrix(@[
+        @[2, 1, -1, 4],
+        @[0, 1, 1, 5]
+      ])
+      n = matrix(@[
+        @[2, 0],
+        @[1, 1],
+        @[-1, 1],
+        @[4, 5]
+      ])
+    check(m.t == n)
+    check(n.t == m)
