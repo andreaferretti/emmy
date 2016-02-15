@@ -101,3 +101,9 @@ proc `+=`*[A: AdditiveGroup](m: var Matrix[A], n: Matrix[A]) =
     for i in 0 .. < m.M:
       for j in 0 .. < m.N:
         m.data[rowM(i, j, m.M, m.N)] += n.data[colM(i, j, m.M, m.N)]
+
+proc `+`*[A: AdditiveGroup](m, n: Matrix[A]): Matrix[A] =
+  assert ((m.M == n.M) and (m.N == n.N))
+  assert m.data.len == n.data.len
+  result = m
+  result += n

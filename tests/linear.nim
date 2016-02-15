@@ -38,6 +38,24 @@ suite "test linear algebra operations":
     ])
     check(m[1, 2] == 5)
 
+  test "operations over matrices":
+    let
+      m = matrix(@[
+        @[1, 2, 3, 4],
+        @[2, 3, 5, 2]
+      ])
+      m1 = m
+      n = matrix(@[
+        @[2, 1, -1, 4],
+        @[0, 1, 1, 5]
+      ])
+      p = matrix(@[
+        @[3, 3, 2, 8],
+        @[2, 4, 6, 7]
+      ])
+    check(m + n == p)
+    check(m == m1)
+
   test "in place operations over matrices":
     var m = matrix(@[
         @[1, 2, 3, 4],
