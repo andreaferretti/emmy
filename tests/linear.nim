@@ -90,6 +90,15 @@ suite "test linear algebra operations":
       v = @[1, 3, 5, 2]
     check(m * v == @[30, 40])
 
+  test "matrix/vector product in row major order":
+    let
+      m = matrix(@[
+        @[1, 2, 3, 4],
+        @[2, 3, 5, 2]
+      ], order = rowMajor)
+      v = @[1, 3, 5, 2]
+    check(m * v == @[30, 40])
+
   test "matrix transpose":
     let
       m = matrix(@[
