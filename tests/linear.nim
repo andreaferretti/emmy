@@ -81,6 +81,15 @@ suite "test linear algebra operations":
     m -= n
     check(m == m1)
 
+  test "matrix/vector product":
+    let
+      m = matrix(@[
+        @[1, 2, 3, 4],
+        @[2, 3, 5, 2]
+      ])
+      v = @[1, 3, 5, 2]
+    check(m * v == @[30, 40])
+
   test "matrix transpose":
     let
       m = matrix(@[

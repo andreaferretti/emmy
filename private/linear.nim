@@ -134,6 +134,14 @@ proc `-`*[A: AdditiveGroup](m, n: Matrix[A]): Matrix[A] =
   result = m
   result -= n
 
+proc `*`*[A: Ring](m: Matrix[A], v: Vector[A]): Vector[A] =
+  assert v.len == m.N
+  result = newSeq[A](m.M)
+  for i in 0 .. < m.M:
+    result[i] = zero(m[0, 0])
+    for j in 0 .. < m.N:
+      result[i] += m[i, j] * v[j]
+
 proc t*[A](m: Matrix[A]): Matrix[A] =
   result = Matrix[A](
     M: m.N,
