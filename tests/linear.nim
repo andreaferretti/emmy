@@ -117,6 +117,42 @@ suite "test linear algebra operations":
       ])
     check(m * n == p)
 
+  test "matrix product in row major order":
+    let
+      m = matrix(@[
+        @[1, 2, 3, 4],
+        @[2, 3, 5, 2]
+      ], order = rowMajor)
+      n = matrix(@[
+        @[1, 2, 3],
+        @[1, 3, 1],
+        @[2, 1, 0],
+        @[1, 2, 1]
+      ], order = rowMajor)
+      p = matrix(@[
+        @[13, 19, 9],
+        @[17, 22, 11]
+      ])
+    check(m * n == p)
+
+  test "matrix product in mixed order":
+    let
+      m = matrix(@[
+        @[1, 2, 3, 4],
+        @[2, 3, 5, 2]
+      ])
+      n = matrix(@[
+        @[1, 2, 3],
+        @[1, 3, 1],
+        @[2, 1, 0],
+        @[1, 2, 1]
+      ], order = rowMajor)
+      p = matrix(@[
+        @[13, 19, 9],
+        @[17, 22, 11]
+      ])
+    check(m * n == p)
+
   test "matrix transpose":
     let
       m = matrix(@[
