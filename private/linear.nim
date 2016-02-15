@@ -132,5 +132,6 @@ proc t*[A](m: Matrix[A]): Matrix[A] = Matrix[A](
   M: m.N,
   N: m.M,
   order: (if m.order == colMajor: rowMajor else: colMajor),
+  # TODO: make this a shallow copy
   data: m.data
 )
