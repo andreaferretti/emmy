@@ -36,7 +36,10 @@ suite "test linear algebra operations":
       @[1, 2, 3, 4],
       @[2, 3, 5, 2]
     ])
+    var n = m
     check(m[1, 2] == 5)
+    n[1, 2] = 1
+    check(n[1, 2] == 1)
 
   test "operations over matrices":
     let
