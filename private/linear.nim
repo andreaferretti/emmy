@@ -73,6 +73,12 @@ template `[]`*[A](m: Matrix[A], i, j: int): A =
   if m.order == colMajor: m.data[colM(i, j, m.M, m.N)]
   else: m.data[rowM(i, j, m.M, m.N)]
 
+template `[]=`*[A](m: Matrix[A], i, j: int, value: A) =
+  if m.order == colMajor:
+    m.data[colM(i, j, m.M, m.N)] = value
+  else:
+    m.data[rowM(i, j, m.M, m.N)] = value
+
 proc `==`*[A: AdditiveGroup](m, n: Matrix[A]): bool =
   if (m.M != n.M) or (m.N != n.N): return false
   if m.order == n.order: return m.data == n.data

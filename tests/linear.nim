@@ -92,3 +92,20 @@ suite "test linear algebra operations":
       ])
     check(m.t == n)
     check(n.t == m)
+
+  test "matrix transpose sharing":
+    var m = matrix(@[
+      @[2, 1, -1, 4],
+      @[0, 1, 1, 5]
+    ])
+    let
+      n = matrix(@[
+        @[2, 0],
+        @[1, 1],
+        @[-1, 1],
+        @[4, 5]
+      ])
+      p = m.t
+    check(p == n)
+    m[1, 1] = -3
+    check(p[1, 1] == -3)
