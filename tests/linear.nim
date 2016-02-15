@@ -55,6 +55,8 @@ suite "test linear algebra operations":
       ])
     check(m + n == p)
     check(m == m1)
+    check(p - n == m)
+    check(p - m == n)
 
   test "in place operations over matrices":
     var m = matrix(@[
@@ -62,6 +64,7 @@ suite "test linear algebra operations":
         @[2, 3, 5, 2]
       ])
     let
+      m1 = m
       n = matrix(@[
         @[2, 1, -1, 4],
         @[0, 1, 1, 5]
@@ -72,3 +75,5 @@ suite "test linear algebra operations":
       ])
     m += n
     check(m == p)
+    m -= n
+    check(m == m1)

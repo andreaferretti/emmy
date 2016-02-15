@@ -107,3 +107,23 @@ proc `+`*[A: AdditiveGroup](m, n: Matrix[A]): Matrix[A] =
   assert m.data.len == n.data.len
   result = m
   result += n
+
+proc `-=`*[A: AdditiveGroup](m: var Matrix[A], n: Matrix[A]) =
+  assert ((m.M == n.M) and (m.N == n.N))
+  if m.order == n.order:
+    for i in 0 .. < m.data.len:
+      m.data[i] = m.data[i] - n.data[i]
+  elif m.order == colMajor:
+    for i in 0 .. < m.M:
+      for j in 0 .. < m.N:
+        m.data[colM(i, j, m.M, m.N)] -= n.data[rowM(i, j, m.M, m.N)]
+  else:
+    for i in 0 .. < m.M:
+      for j in 0 .. < m.N:
+        m.data[rowM(i, j, m.M, m.N)] -= n.data[colM(i, j, m.M, m.N)]
+
+proc `-`*[A: AdditiveGroup](m, n: Matrix[A]): Matrix[A] =
+  assert ((m.M == n.M) and (m.N == n.N))
+  assert m.data.len == n.data.len
+  result = m
+  result -= n
