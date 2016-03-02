@@ -45,7 +45,7 @@ proc `-`*[A: AdditiveGroup](v, w: Vector[A]): Vector[A] =
 
 proc `*`*[A: Ring](v, w: Vector[A]): A =
   assert v.len == w.len
-  result = zero(v[0])
+  result = zero(A)
   for i in 0 .. < v.len:
     result += v[i] * w[i]
 

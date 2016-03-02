@@ -16,7 +16,7 @@
 # We should replace it with a safe Montgomery ladder, see
 # http://cr.yp.to/bib/2003/joye-ladder.pdf
 
-proc power*(r: Ring, n: int): auto =
+proc power*[A](r: A, n: int): auto =
   mixin id
   var
     n = n

@@ -53,7 +53,7 @@ proc `==`*[A: EuclideanRing](x, y: Modular[A]): bool =
   (x.m == y.m) and (((x.a - y.a) mod x.m) == 0)
 
 proc id*[A](x: Modular[A]): Modular[A] =
-  id(x.a).modulo(x.m)
+  id(A).modulo(x.m)
 
 proc zero*[A: EuclideanRing](x: Modular[A]): Modular[A] =
-  zero(x.a).modulo(x.m)
+  zero(A).modulo(x.m)

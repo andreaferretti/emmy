@@ -22,12 +22,12 @@ type Integer = int64 or int32 or int # or BigInt
 
 proc mrCoefficients(n: Integer): tuple[s, d: Integer] =
   let
-    one = id(n)
+    one = id(type(n))
     two = one + one
   var
-    s = zero(n)
+    s = zero(type(n))
     d = n
-  while d %% two == zero(n):
+  while d %% two == zero(type(n)):
     s += one
     d = d div two
   (s, d)
@@ -36,7 +36,7 @@ proc test(n, a: Integer): bool =
   let
     (s, d) = mrCoefficients(n - 1)
     b = a.modulo(n)
-    one = id(b)
+    one = id(type(a)).modulo(n)
   var x = power(b, d)
   if (x == one) or (x == -one): return true
   for i in 0 .. < s:

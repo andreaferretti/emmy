@@ -17,7 +17,7 @@ type Polynomial*[I: static[string], A] = object
 
 proc reduce[A](s: seq[A]): seq[A] =
   if s.len == 0: return s
-  let z = zero(s[0])
+  let z = zero(A)
   var L = s.len - 1
   for i in 0 .. < s.len:
     if s[L] == z: L -= 1
@@ -39,7 +39,7 @@ proc poly*[A](a: varargs[A]): auto = polynomial("X", a)
 proc monomial*[A](I: static[string], n: int, a: A): Polynomial[I, A] =
   var c = newSeq[A](n + 1)
   for i in 0 .. < n:
-    c[i] = zero(a)
+    c[i] = zero(A)
   c[n] = a
   polynomial(I, c)
 
@@ -83,10 +83,10 @@ proc id*[I: static[string], A](x: Polynomial[I, A]): Polynomial[I, A] =
   poly[I, A](id[A]())
 
 proc `==`*[I: static[string], A](p: Polynomial[I, A], q: A): bool =
-  (p.deg == -1 and q == zero(q)) or (p.deg == 0 and p.coefficients[0] == q)
+  (p.deg == -1 and q == zero(A)) or (p.deg == 0 and p.coefficients[0] == q)
 
 proc `==`*[I: static[string], A](p: A, q: Polynomial[I, A]): bool =
-  (q.deg == -1 and p == zero(p)) or (q.deg == 0 and q.coefficients[0] == p)
+  (q.deg == -1 and p == zero(A)) or (q.deg == 0 and q.coefficients[0] == p)
 
 proc sumSeq[A](s, t: seq[A]): seq[A] =
   if s.len >= t.len:
@@ -130,7 +130,7 @@ template `-=`*[I: static[string], A](a: var Polynomial[I, A], b: Polynomial[I, A
 proc mulSeq[A](s, t: seq[A]): seq[A] =
   if s.len == 0: return @[]
   let
-    z = zero(s[0])
+    z = zero(A)
     Ls = s.len
     Lt = t.len
   var p = newSeq[A](Ls + Lt)

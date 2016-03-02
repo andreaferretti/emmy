@@ -24,6 +24,6 @@ proc `+`*[K; V: AdditiveMonoid](s, t: TableRef[K, V]): TableRef[K, V] =
     if not s.hasKey(k):
       result[k] = v
 
-proc `zero`*[K, V](s: TableRef[K, V]): TableRef[K, V] =
+proc `zero`*[K, V](s: typedesc[TableRef[K, V]]): TableRef[K, V] =
   new result
   result[] = initTable[K, V]()

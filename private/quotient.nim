@@ -74,13 +74,13 @@ proc `==`*[A](x: Quotient[A], y: A): bool = x.a == x.b * y
 
 proc `==`*[A](x: A, y: Quotient[A]): bool = y.a == y.b * x
 
-proc zero*[A](x: Quotient[A]): Quotient[A] =
-  Quotient[A](a: zero(x.a), b: id(x.a))
+proc zero*[A](x: typedesc[Quotient[A]]): Quotient[A] =
+  Quotient[A](a: zero(A), b: id(A))
 
-proc id*[A](x: Quotient[A]): Quotient[A] =
-  Quotient[A](a: id(x.a), b: id(x.a))
+proc id*[A](x: typedesc[Quotient[A]]): Quotient[A] =
+  Quotient[A](a: id(A), b: id(A))
 
 proc quot*[A](x: A): Quotient[A] =
-  Quotient[A](a: x, b: id(x))
+  Quotient[A](a: x, b: id(A))
 
 proc `///`*[A](a: A, b: A): Quotient[A] = Quotient[A](a: a, b: b)
