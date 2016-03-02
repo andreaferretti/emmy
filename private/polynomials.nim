@@ -60,27 +60,29 @@ proc top*[I: static[string], A](p: Polynomial[I, A]): A {.inline.} =
 proc `$`*[I: static[string], A](p: Polynomial[I, A]): string =
   result = ""
   var first = true
+  if deg(p) == -1:
+    return $(zero(A))
   for i in 0 .. deg(p):
     let x = p.coefficients[i]
-    if x != zero(x):
+    if x != zero(A):
       if not first: result &= " + "
       first = false
       if i == 0: result &= $(x)
       elif i == 1:
-        if x == id(x): result &= I
+        if x == id(A): result &= I
         else: result &= $(x) & "*" & I
       else:
-        if x == id(x): result &= I & "^"  & $(i)
+        if x == id(A): result &= I & "^"  & $(i)
         else: result &= $(x) & "*" & I & "^"  & $(i)
 
 proc zero*(I: static[string], A: typedesc): Polynomial[I, A] =
   Polynomial[I, A](coefficients: @[])
 
-proc zero*[I: static[string], A](x: Polynomial[I, A]): Polynomial[I, A] =
-  poly[I, A]()
+proc zero*[I: static[string], A](x: typedesc[Polynomial[I, A]]): Polynomial[I, A] =
+  zero(I, A)
 
-proc id*[I: static[string], A](x: Polynomial[I, A]): Polynomial[I, A] =
-  poly[I, A](id[A]())
+proc id*[I: static[string], A](x: typedesc[Polynomial[I, A]]): Polynomial[I, A] =
+  polynomial(I, id(A))
 
 proc `==`*[I: static[string], A](p: Polynomial[I, A], q: A): bool =
   (p.deg == -1 and q == zero(A)) or (p.deg == 0 and p.coefficients[0] == q)
@@ -168,6 +170,8 @@ proc `div`*[I: static[string], A](s, t: Polynomial[I, A]): Polynomial[I, A] =
   let (q, r) = division(s, t)
   q
 
-proc `%%`*[I: static[string], A](s, t: Polynomial[I, A]): Polynomial[I, A] =
+proc `mod`*[I: static[string], A](s, t: Polynomial[I, A]): Polynomial[I, A] =
   let (q, r) = division(s, t)
   r
+
+template `%%`*(s, t: Polynomial): auto = s mod t
