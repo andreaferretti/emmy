@@ -1,25 +1,34 @@
-Emmy
-====
+# Emmy
 
 Algebraic structures and related operations for Nim.
 
 ![logo](https://raw.githubusercontent.com/unicredit/emmy/master/emmy.png)
 
-Status
-------
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Emmy](#emmy)
+	- [Status](#status)
+	- [Algebraic structures](#algebraic-structures)
+		- [Default instances](#default-instances)
+		- [Making your own algebraic structures](#making-your-own-algebraic-structures)
+	- [Modular rings](#modular-rings)
+	- [Quotient rings](#quotient-rings)
+	- [Primality](#primality)
+	- [Polynomials](#polynomials)
+	- [Linear algebra](#linear-algebra)
+
+<!-- /TOC -->
+
+## Status
 
 This library was extracted from a separate project, and will require some
 polish. Expect the API to change (hopefully for the better!) until further
 notice. :-)
 
-Documentation
--------------
-
-Not too much in terms of documentation yet, but you can see the tests
+There is not too much in terms of documentation yet, but you can see the tests
 to get an idea.
 
-Algebraic structures
---------------------
+## Algebraic structures
 
 The first building block for Emmy are definitions for common algebraic
 structures, such as monoids or Euclidean rings. Such structures are encoded
@@ -66,6 +75,27 @@ mathematical idea:
 * second, the division is mathematically only defined for non-zero
   denominators, but we have no way to enforce this at the level of types.
 
+### Default instances
+
+A few common data types implement the above concepts:
+
+* all standard integer types (`int`, `int32`, `int64`) are instances of
+  `EuclideanRing`;
+* Emmy depends on [bigints](https://github.com/def-/nim-bigints), and
+  `BigInt` is an `EuclideanRing` as well;
+* all float types are instances of `Field`;
+* `TableRef[K, V]` is an instance of `AdditiveMonoid`, provided `V` is.
+
+The latter uses the sum on values corresponding to the same keys, so that for
+instance
+
+```nim
+{ "a": 1, "b": 2 }.newTable + { "c": 3, "b": 5 }.newTable ==
+  { "a": 1, "c": 3, "b": 7 }.newTable
+```
+
+### Making your own algebraic structures
+
 In order to make your data types a member of these concepts, just give
 definitions for the appropriate operations.
 
@@ -84,3 +114,13 @@ zero(int) # returns 0
 ```
 
 A similar remark holds for `id(type(x)) is type(x)`.
+
+## Modular rings
+
+## Quotient rings
+
+## Primality
+
+## Polynomials
+
+## Linear algebra
