@@ -17,3 +17,54 @@ Documentation
 
 Not too much in terms of documentation yet, but you can see the tests
 to get an idea.
+
+Algebraic structures
+--------------------
+
+The first building block for Emmy are definitions for common algebraic
+structures, such as monoids or Euclidean rings. Such structures are encoded
+using [concepts](http://nim-lang.org/docs/manual.html#generics-concepts),
+which means that they can be used as generic constraints (say, a certain
+operation only works over fields).
+
+The definitions for those concepts follow closely the usual definitions in
+mathematics:
+
+```nim
+type
+  AdditiveMonoid* = concept x, y
+    x + y is type(x)
+    zero(type(x)) is type(x)
+  AdditiveGroup* = concept x, y
+    x is AdditiveMonoid
+    -x is type(x)
+    x - y is type(x)
+  MultiplicativeMonoid* = concept x, y
+    x * y is type(x)
+    id(type(x)) is type(x)
+  MultiplicativeGroup* = concept x, y
+    x is MultiplicativeMonoid
+    x / y is type(x)
+  Ring* = concept x
+    x is AdditiveGroup
+    x is MultiplicativeMonoid
+  EuclideanRing* = concept x, y
+    x is Ring
+    x div y is type(x)
+    x mod y is type(x)
+  Field* = concept x
+    x is Ring
+    x is MultiplicativeGroup
+```
+
+We notice a couple of ways where the mechanical encoding strays from the
+mathematical idea:
+
+* first, the definition above only requires the existence of appropriate
+  operations, and we cannot say anything in general about the various axioms
+  that these structures satisfy, such as associativity or commutativity;
+* second, the division is mathematically only defined for non-zero
+  denominators, but we have no way to enforce this at the level of types.
+
+In order to make your data types a member of these concepts, just give
+definitions for the appropriate operations.
