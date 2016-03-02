@@ -68,3 +68,19 @@ mathematical idea:
 
 In order to make your data types a member of these concepts, just give
 definitions for the appropriate operations.
+
+The line `zero(type(x)) is type(x)` may look confusing at first. This means
+that - in order for a type `A` to be a monoid - you have to implement a function
+of type `proc(x: typedesc[A]): A`. For instance, for `int` we have
+
+```nim
+proc zero*(x: typedesc[int]): int = 0
+```
+
+and this allows us to call it like
+
+```nim
+zero(int) # returns 0
+```
+
+A similar remark holds for `id(type(x)) is type(x)`.
