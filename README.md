@@ -90,8 +90,7 @@ The latter uses the sum on values corresponding to the same keys, so that for
 instance
 
 ```nim
-{ "a": 1, "b": 2 }.newTable + { "c": 3, "b": 5 }.newTable ==
-  { "a": 1, "c": 3, "b": 7 }.newTable
+{ "a": 1, "b": 2 }.newTable + { "c": 3, "b": 5 }.newTable == { "a": 1, "c": 3, "b": 7 }.newTable
 ```
 
 ### Making your own algebraic structures
