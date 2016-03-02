@@ -49,6 +49,9 @@ proc `*`*[A: Ring](v, w: Vector[A]): A =
   for i in 0 .. < v.len:
     result += v[i] * w[i]
 
+template colM(i, j, M, N: expr): expr = j * M + i
+template rowM(i, j, M, N: expr): expr = i * N + j
+
 proc makeMatrix*[A](M, N: int, f: proc(i, j: int): A, order = colMajor): Matrix[A] =
   result.data = newSeq[A](M * N)
   result.M = M
@@ -57,15 +60,122 @@ proc makeMatrix*[A](M, N: int, f: proc(i, j: int): A, order = colMajor): Matrix[
   if order == colMajor:
     for i in 0 .. < M:
       for j in 0 .. < N:
-        result.data[j * M + i] = f(i, j)
+        result.data[colM(i, j, M, N)] = f(i, j)
   else:
     for i in 0 .. < M:
       for j in 0 .. < N:
-        result.data[i * N + j] = f(i, j)
+        result.data[rowM(i, j, M, N)] = f(i, j)
 
 proc matrix*[A](xs: seq[seq[A]], order = colMajor): Matrix[A] =
   makeMatrix(xs.len, xs[0].len, proc(i, j: int): A = xs[i][j], order)
 
 template `[]`*[A](m: Matrix[A], i, j: int): A =
-  if m.order == colMajor: m.data[j * m.M + i]
-  else: m.data[i * m.N + j]
+  if m.order == colMajor: m.data[colM(i, j, m.M, m.N)]
+  else: m.data[rowM(i, j, m.M, m.N)]
+
+template `[]=`*[A](m: Matrix[A], i, j: int, value: A) =
+  if m.order == colMajor:
+    m.data[colM(i, j, m.M, m.N)] = value
+  else:
+    m.data[rowM(i, j, m.M, m.N)] = value
+
+proc `==`*[A: AdditiveGroup](m, n: Matrix[A]): bool =
+  if (m.M != n.M) or (m.N != n.N): return false
+  if m.order == n.order: return m.data == n.data
+  if m.order == colMajor:
+    for i in 0 .. < m.M:
+      for j in 0 .. < m.N:
+        if m.data[colM(i, j, m.M, m.N)] != n.data[rowM(i, j, m.M, m.N)]:
+          return false
+  else:
+    for i in 0 .. < m.M:
+      for j in 0 .. < m.N:
+        if m.data[rowM(i, j, m.M, m.N)] != n.data[colM(i, j, m.M, m.N)]:
+          return  false
+  return true
+
+proc `+=`*[A: AdditiveGroup](m: var Matrix[A], n: Matrix[A]) =
+  assert ((m.M == n.M) and (m.N == n.N))
+  if m.order == n.order:
+    for i in 0 .. < m.data.len:
+      m.data[i] = m.data[i] + n.data[i]
+  elif m.order == colMajor:
+    for i in 0 .. < m.M:
+      for j in 0 .. < m.N:
+        m.data[colM(i, j, m.M, m.N)] += n.data[rowM(i, j, m.M, m.N)]
+  else:
+    for i in 0 .. < m.M:
+      for j in 0 .. < m.N:
+        m.data[rowM(i, j, m.M, m.N)] += n.data[colM(i, j, m.M, m.N)]
+
+proc `+`*[A: AdditiveGroup](m, n: Matrix[A]): Matrix[A] =
+  assert ((m.M == n.M) and (m.N == n.N))
+  assert m.data.len == n.data.len
+  result = m
+  result += n
+
+proc `-=`*[A: AdditiveGroup](m: var Matrix[A], n: Matrix[A]) =
+  assert ((m.M == n.M) and (m.N == n.N))
+  if m.order == n.order:
+    for i in 0 .. < m.data.len:
+      m.data[i] = m.data[i] - n.data[i]
+  elif m.order == colMajor:
+    for i in 0 .. < m.M:
+      for j in 0 .. < m.N:
+        m.data[colM(i, j, m.M, m.N)] -= n.data[rowM(i, j, m.M, m.N)]
+  else:
+    for i in 0 .. < m.M:
+      for j in 0 .. < m.N:
+        m.data[rowM(i, j, m.M, m.N)] -= n.data[colM(i, j, m.M, m.N)]
+
+proc `-`*[A: AdditiveGroup](m, n: Matrix[A]): Matrix[A] =
+  assert ((m.M == n.M) and (m.N == n.N))
+  assert m.data.len == n.data.len
+  result = m
+  result -= n
+
+proc `*`*[A: Ring](m: Matrix[A], v: Vector[A]): Vector[A] =
+  assert v.len == m.N
+  result = newSeq[A](m.M)
+  if m.order == colMajor:
+    for i in 0 .. < m.M:
+      result[i] = zero(m[0, 0])
+      for j in 0 .. < m.N:
+        result[i] += m.data[colM(i, j, m.M, m.N)] * v[j]
+  else:
+    for i in 0 .. < m.M:
+      result[i] = zero(m[0, 0])
+      for j in 0 .. < m.N:
+        result[i] += m.data[rowM(i, j, m.M, m.N)] * v[j]
+
+template multiply(result, m, n, data_m, data_n: expr) =
+  for i in 0 .. < result.M:
+    for j in 0 .. < result.N:
+      result.data[colM(i, j, result.M, result.N)] = zero(m.data[0])
+      for k in 0 .. < m.N:
+        result.data[colM(i, j, result.M, result.N)] += m.data[data_m(i, k, m.M, m.N)] * n.data[data_n(k, j, n.M, n.N)]
+
+proc `*`*[A: Ring](m, n: Matrix[A]): Matrix[A] =
+  assert m.N == n.M
+  result = Matrix[A](
+    M: m.M,
+    N: n.N,
+    order: colMajor,
+    data: newSeq[A](m.M * n.N)
+  )
+  if m.order == colMajor and n.order == colMajor: multiply(result, m, n, colM, colM)
+  elif m.order == colMajor and n.order == rowMajor: multiply(result, m, n, colM, rowM)
+  elif m.order == rowMajor and n.order == colMajor: multiply(result, m, n, rowM, colM)
+  else: multiply(result, m, n, rowM, rowM)
+
+proc t*[A](m: Matrix[A]): Matrix[A] =
+  result = Matrix[A](
+    M: m.N,
+    N: m.M,
+    order: (if m.order == colMajor: rowMajor else: colMajor),
+    data: nil
+  )
+  shallowCopy(result.data, m.data)
+
+proc toVector*[A](m: Matrix[A]): Vector[A] =
+  shallowCopy(result, m.data)
