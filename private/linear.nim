@@ -139,19 +139,19 @@ proc `*`*[A: Ring](m: Matrix[A], v: Vector[A]): Vector[A] =
   result = newSeq[A](m.M)
   if m.order == colMajor:
     for i in 0 .. < m.M:
-      result[i] = zero(m[0, 0])
+      result[i] = zero(A)
       for j in 0 .. < m.N:
         result[i] += m.data[colM(i, j, m.M, m.N)] * v[j]
   else:
     for i in 0 .. < m.M:
-      result[i] = zero(m[0, 0])
+      result[i] = zero(A)
       for j in 0 .. < m.N:
         result[i] += m.data[rowM(i, j, m.M, m.N)] * v[j]
 
 template multiply(result, m, n, data_m, data_n: expr) =
   for i in 0 .. < result.M:
     for j in 0 .. < result.N:
-      result.data[colM(i, j, result.M, result.N)] = zero(m.data[0])
+      result.data[colM(i, j, result.M, result.N)] = zero(type(m.data[0]))
       for k in 0 .. < m.N:
         result.data[colM(i, j, result.M, result.N)] += m.data[data_m(i, k, m.M, m.N)] * n.data[data_n(k, j, n.M, n.N)]
 
