@@ -80,9 +80,13 @@ suite "test polynomials implementation":
   #     q = poly(1.modulo(5), 2.modulo(5), 1.modulo(5))
   #   check(p + q == 3.modulo(5))
 
-  test "polynomials over a field are an Euclidean ring":
-    let p = poly(1.0, 3.0, -2.5)
-    check(p is AdditiveMonoid)
+  test "polynomials over a ring are a ring":
+    let p = poly(1, 3, -2)
+    check(p is Ring)
+
+  # test "polynomials over a field are an Euclidean ring":
+  #   let p = poly(1.0, 3.0, -2.5)
+  #   check(p is Ring)
 
 suite "test polynomials DSL":
   test "polynomial sum":
