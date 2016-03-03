@@ -15,14 +15,14 @@
 import emmy, unittest
 
 suite "test polynomials implementation":
-  const X = "X"
   let
     p = poly(2, 3, 5)
     q = poly(1, -3, 6, 8)
+    z = zero(Polynomial[int])
 
   test "polynomial reduction":
-    check(poly(0) == zero(X, int))
-    check(poly(0, 0, 0, 0, 0) == zero(X, int))
+    check(poly(0) == z)
+    check(poly(0, 0, 0, 0, 0) == z)
     check(poly(3, 4, 5, 0, 0) == poly(3, 4, 5))
 
   test "polynomial sum":
@@ -80,13 +80,13 @@ suite "test polynomials implementation":
   #     q = poly(1.modulo(5), 2.modulo(5), 1.modulo(5))
   #   check(p + q == 3.modulo(5))
 
-  # test "polynomials over a field are an Euclidean ring":
-  #   let p = poly(1.0, 3.0, -2.5)
-  #   check(p is AdditiveMonoid)
+  test "polynomials over a field are an Euclidean ring":
+    let p = poly(1.0, 3.0, -2.5)
+    check(p is AdditiveMonoid)
 
 suite "test polynomials DSL":
   test "polynomial sum":
-    variable X
+    const X = poly(1)
     let
       p = 2 + 3 * X + 5 * X * X
       q = 1 - 3 * X + 6 * X * X + 8 * X * X * X

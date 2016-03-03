@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-type Polynomial*[I: static[string], A] = object
+type Polynomial*[A] = object
   coefficients*: seq[A]
 
 proc reduce[A](s: seq[A]): seq[A] =
@@ -25,39 +25,37 @@ proc reduce[A](s: seq[A]): seq[A] =
   if L < 0: return @[]
   else: return s[0 .. L]
 
-proc polynomial*[A](I: static[string], a: seq[A]): Polynomial[I, A] =
-  Polynomial[I, A](coefficients: reduce(a))
+proc polynomial*[A](a: seq[A]): Polynomial[A] =
+  Polynomial[A](coefficients: reduce(a))
 
-proc polynomial*[A](I: static[string], a: varargs[A]): Polynomial[I, A] =
-  Polynomial[I, A](coefficients: reduce(@a))
+proc reduce[A](p: Polynomial[A]): Polynomial[A] =
+  polynomial(p.coefficients)
 
-proc reduce[I: static[string], A](p: Polynomial[I, A]): Polynomial[I, A] =
-  polynomial(I, reduce(p.coefficients))
+proc poly*[A](a: varargs[A]): Polynomial[A] =
+  Polynomial[A](coefficients: reduce(@a))
 
-proc poly*[A](a: varargs[A]): auto = polynomial("X", a)
-
-proc monomial*[A](I: static[string], n: int, a: A): Polynomial[I, A] =
+proc monomial*[A](n: int, a: A): Polynomial[A] =
   var c = newSeq[A](n + 1)
   for i in 0 .. < n:
     c[i] = zero(A)
   c[n] = a
-  polynomial(I, c)
+  return polynomial(c)
 
-template v(symbol, id: untyped): auto {.immediate.} =
-  const vname {.gensym.} = symbol
-  let id {.inject.} = monomial(vname, 1, 1)
+# template v(symbol, id: untyped): auto {.immediate.} =
+#   const vname {.gensym.} = symbol
+#   let id {.inject.} = monomial(vname, 1, 1)
+#
+# macro variable*(id: untyped): stmt =
+#   let symbol = newStrLitNode($(id))
+#   result = getAst(v(symbol, id))
 
-macro variable*(id: untyped): stmt =
-  let symbol = newStrLitNode($(id))
-  result = getAst(v(symbol, id))
-
-proc deg*[I: static[string], A](p: Polynomial[I, A]): int {.inline.} =
+proc deg*[A](p: Polynomial[A]): int {.inline.} =
   p.coefficients.len - 1
 
-proc top*[I: static[string], A](p: Polynomial[I, A]): A {.inline.} =
+proc top*[A](p: Polynomial[A]): A {.inline.} =
   p.coefficients[deg(p)]
 
-proc `$`*[I: static[string], A](p: Polynomial[I, A]): string =
+proc `$`*[A](p: Polynomial[A]): string =
   result = ""
   var first = true
   if deg(p) == -1:
@@ -69,25 +67,21 @@ proc `$`*[I: static[string], A](p: Polynomial[I, A]): string =
       first = false
       if i == 0: result &= $(x)
       elif i == 1:
-        if x == id(A): result &= I
-        else: result &= $(x) & "*" & I
+        if x == id(A): result &= "X"
+        else: result &= $(x) & "*" & "X"
       else:
-        if x == id(A): result &= I & "^"  & $(i)
-        else: result &= $(x) & "*" & I & "^"  & $(i)
+        if x == id(A): result &= "X" & "^"  & $(i)
+        else: result &= $(x) & "*" & "X" & "^"  & $(i)
 
-proc zero*(I: static[string], A: typedesc): Polynomial[I, A] =
-  Polynomial[I, A](coefficients: @[])
+proc zero*[A](x: typedesc[Polynomial[A]]): Polynomial[A] =
+  Polynomial[A](coefficients: @[])
 
-proc zero*[I: static[string], A](x: typedesc[Polynomial[I, A]]): Polynomial[I, A] =
-  zero(I, A)
+proc id*[A](x: typedesc[Polynomial[A]]): Polynomial[A] = polynomial(id(A))
 
-proc id*[I: static[string], A](x: typedesc[Polynomial[I, A]]): Polynomial[I, A] =
-  polynomial(I, id(A))
-
-proc `==`*[I: static[string], A](p: Polynomial[I, A], q: A): bool =
+proc `==`*[A](p: Polynomial[A], q: A): bool =
   (p.deg == -1 and q == zero(A)) or (p.deg == 0 and p.coefficients[0] == q)
 
-proc `==`*[I: static[string], A](p: A, q: Polynomial[I, A]): bool =
+proc `==`*[A](p: A, q: Polynomial[A]): bool =
   (q.deg == -1 and p == zero(A)) or (q.deg == 0 and q.coefficients[0] == p)
 
 proc sumSeq[A](s, t: seq[A]): seq[A] =
@@ -99,33 +93,28 @@ proc sumSeq[A](s, t: seq[A]): seq[A] =
       result[i] = s[i]
   else: return sumSeq(t, s)
 
-proc `+`*[I: static[string], A](p, q: Polynomial[I, A]): Polynomial[I, A] =
-  polynomial(I, sumSeq(p.coefficients, q.coefficients))
+proc `+`*[A](p, q: Polynomial[A]): Polynomial[A] =
+  polynomial(sumSeq(p.coefficients, q.coefficients))
 
-proc `+`*[I: static[string], A](p: Polynomial[I, A], q: A): Polynomial[I, A] =
-  p + polynomial(I, q)
+proc `+`*[A](p: Polynomial[A], q: A): Polynomial[A] = p + poly(q)
 
-proc `+`*[I: static[string], A](p: A, q: Polynomial[I, A]): Polynomial[I, A] =
-  polynomial(I, p) + q
+proc `+`*[A](p: A, q: Polynomial[A]): Polynomial[A] = poly(p) + q
 
-proc `-`*[I: static[string], A](p: Polynomial[I, A]): Polynomial[I, A] =
-  polynomial(I, p.coefficients.map(proc (a: A): A =
+proc `-`*[A](p: Polynomial[A]): Polynomial[A] =
+  polynomial(p.coefficients.map(proc (a: A): A =
     -a))
 
-proc `-`*[I: static[string], A](p, q: Polynomial[I, A]): Polynomial[I, A] =
-  p + (-q)
+proc `-`*[A](p, q: Polynomial[A]): Polynomial[A] = p + (-q)
 
-proc `-`*[I: static[string], A](p: Polynomial[I, A], q: A): Polynomial[I, A] =
-  p - polynomial(I, q)
+proc `-`*[A](p: Polynomial[A], q: A): Polynomial[A] = p - poly(q)
 
-proc `-`*[I: static[string], A](p: A, q: Polynomial[I, A]): Polynomial[I, A] =
-  polynomial(I, p) - q
+proc `-`*[A](p: A, q: Polynomial[A]): Polynomial[A] = poly(p) - q
 
-template `+=`*[I: static[string], A](a: var Polynomial[I, A], b: Polynomial[I, A]) =
+template `+=`*[A](a: var Polynomial[A], b: Polynomial[A]) =
   let c = a
   a = c + b
 
-template `-=`*[I: static[string], A](a: var Polynomial[I, A], b: Polynomial[I, A]) =
+template `-=`*[A](a: var Polynomial[A], b: Polynomial[A]) =
   let c = a
   a = c - b
 
@@ -142,35 +131,33 @@ proc mulSeq[A](s, t: seq[A]): seq[A] =
       p[i] += s[j] * t[i - j]
   return reduce(p)
 
-proc `*`*[I: static[string], A](p, q: Polynomial[I, A]): Polynomial[I, A] =
-  polynomial(I, mulSeq(p.coefficients, q.coefficients))
+proc `*`*[A](p, q: Polynomial[A]): Polynomial[A] =
+  polynomial(mulSeq(p.coefficients, q.coefficients))
 
-proc `*`*[I: static[string], A](p: Polynomial[I, A], q: A): Polynomial[I, A] =
-  p * polynomial(I, q)
+proc `*`*[A](p: Polynomial[A], q: A): Polynomial[A] = p * poly(q)
 
-proc `*`*[I: static[string], A](p: A, q: Polynomial[I, A]): Polynomial[I, A] =
-  polynomial(I, p) * q
+proc `*`*[A](p: A, q: Polynomial[A]): Polynomial[A] = poly(p) * q
 
-template `*=`*[I: static[string], A](a: var Polynomial[I, A], b: Polynomial[I, A]) =
+template `*=`*[A](a: var Polynomial[A], b: Polynomial[A]) =
   let c = a
   a = c * b
 
-proc division*[I: static[string], A](s, t: Polynomial[I, A]): tuple[q: Polynomial[I, A], r: Polynomial[I, A]] =
-  if deg(t) > deg(s): (zero(I, A), s)
+proc division*[A](s, t: Polynomial[A]): tuple[q, r: Polynomial[A]] =
+  if deg(t) > deg(s): (zero(Polynomial[A]), s)
   else:
     let
       a = top(s)
       b = top(t)
-      q_0 = monomial(I, deg(s) - deg(t), a / b)
+      q_0 = monomial(deg(s) - deg(t), a / b)
       r_0 = reduce(s - (q_0 * t))
       (q_1, r) = division(r_0, t)
     (q_0 + q_1, r)
 
-proc `div`*[I: static[string], A](s, t: Polynomial[I, A]): Polynomial[I, A] =
+proc `div`*[A](s, t: Polynomial[A]): Polynomial[A] =
   let (q, r) = division(s, t)
   q
 
-proc `mod`*[I: static[string], A](s, t: Polynomial[I, A]): Polynomial[I, A] =
+proc `mod`*[A](s, t: Polynomial[A]): Polynomial[A] =
   let (q, r) = division(s, t)
   r
 
