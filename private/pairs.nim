@@ -12,14 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sequtils, math, intsets, algorithm, macros, tables, bigints
+proc `+`*[A, B: AdditiveMonoid](x, y: tuple[a: A, b: B]): tuple[a: A, b: B] =
+  let
+    (x1, x2) = x
+    (y1, y2) = y
+  return (x1 + y1, x2 + y2)
 
-include private/structures
-include private/pairs
-include private/modular
-include private/operations
-include private/tableops
-include private/quotient
-include private/polynomials
-include private/linear
-include private/primality
+proc zero*[A, B: AdditiveMonoid](x: typedesc[tuple[a: A, b: B]]): tuple[a: A, b: B] =
+  (zero(A), zero(B))

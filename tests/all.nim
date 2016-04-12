@@ -12,4 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import structures, operations, tableops, modular, quotient, polynomials, linear, primality
+import structures, pairs, operations, tableops, modular, quotient, polynomials, linear, primality

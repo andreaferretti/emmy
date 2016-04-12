@@ -14,7 +14,7 @@
 
 import emmy, unittest, tables, bigints
 
-suite "known type implement appropriate typeclasses":
+suite "known types implement appropriate typeclasses":
   test "integers are an Euclidean ring":
     check(1 is EuclideanRing)
     check(1'i32 is EuclideanRing)

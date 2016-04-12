@@ -12,14 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sequtils, math, intsets, algorithm, macros, tables, bigints
+import emmy, unittest
 
-include private/structures
-include private/pairs
-include private/modular
-include private/operations
-include private/tableops
-include private/quotient
-include private/polynomials
-include private/linear
-include private/primality
+suite "pair types implement appropriate typeclasses":
+  test "pairs of integers are an additive monoid":
+    check((1, 2) is AdditiveMonoid)
