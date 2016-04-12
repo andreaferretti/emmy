@@ -114,6 +114,26 @@ zero(int) # returns 0
 
 A similar remark holds for `id(type(x)) is type(x)`.
 
+### Cartesian products
+
+The product of two additive (resp. multiplicative) monoids is itself an
+additive (resp. multiplicative) monoid. The same holds for additive
+groups and for rings (but not for fields!).
+
+Emmy defines suitable operations on pairs of elements, so that tuples with
+two elements live in an appropriate algebraic structure, provided each
+component does. Hence, for instance, `(int, float64)` is a ring, and
+
+```nim
+(1, 2.0) + (3, 4.0) == (4, 6.0)
+(1, 2.0) * (3, 4.0) == (3, 8.0)
+zero((int, float64)) == (0, 0.0)
+```
+
+For products with more than two factors, you can either define your own
+instances or work recursively, using the isomorphism between `(A, B, C)` and
+`((A, B), C)`.
+
 ## Modular rings
 
 ## Quotient rings
