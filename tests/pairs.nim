@@ -22,3 +22,10 @@ suite "pair types implement appropriate typeclasses":
     check(-(3, 4) == (-3, -4))
     check((1, 2) * (3, 4) == (3, 8))
     check(zero((int, int)) == (0, 0))
+  test "pairs of an int and a float are a ring":
+    check((1, 2.0) is Ring)
+    check((1, 2.0) + (3, 4.0) == (4, 6.0))
+    check((1, 2.0) - (3, 4.0) == (-2, -2.0))
+    check(-(3, 4.0) == (-3, -4.0))
+    check((1, 2.0) * (3, 4.0) == (3, 8.0))
+    check(zero((int, float64)) == (0, 0.0))
