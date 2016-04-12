@@ -15,9 +15,10 @@
 import emmy, unittest
 
 suite "pair types implement appropriate typeclasses":
-  test "pairs of integers are an additive group":
-    check((1, 2) is AdditiveGroup)
+  test "pairs of integers are a ring":
+    check((1, 2) is Ring)
     check((1, 2) + (3, 4) == (4, 6))
     check((1, 2) - (3, 4) == (-2, -2))
     check(-(3, 4) == (-3, -4))
+    check((1, 2) * (3, 4) == (3, 8))
     check(zero((int, int)) == (0, 0))
