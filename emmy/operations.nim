@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import ./structures
+
 # Binary ladder, unsafe against timing attacks
 # We should replace it with a safe Montgomery ladder, see
 # http://cr.yp.to/bib/2003/joye-ladder.pdf

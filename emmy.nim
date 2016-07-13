@@ -12,14 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sequtils, math, intsets, algorithm, macros, tables, bigints
+import emmy/structures, emmy/pairs, emmy/modular, emmy/operations,
+  emmy/tableops, emmy/quotient, emmy/polynomials, emmy/linear,
+  emmy/primality
 
-include private/structures
-include private/pairs
-include private/modular
-include private/operations
-include private/tableops
-include private/quotient
-include private/polynomials
-include private/linear
-include private/primality
+export structures, pairs, modular, operations, tableops, quotient,
+  polynomials, linear, primality

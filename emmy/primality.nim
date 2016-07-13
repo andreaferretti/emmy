@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import intsets, math, algorithm
+import ./structures, ./operations, ./modular
+
 # Based on http://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test
 # Notation:
 # - n = 2^s * d is the number under test

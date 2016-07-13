@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import sequtils
+import ./structures
+
 type Polynomial*[A] = object
   coefficients*: seq[A]
 
@@ -40,14 +43,6 @@ proc monomial*[A](n: int, a: A): Polynomial[A] =
     c[i] = zero(A)
   c[n] = a
   return polynomial(c)
-
-# template v(symbol, id: untyped): auto {.immediate.} =
-#   const vname {.gensym.} = symbol
-#   let id {.inject.} = monomial(vname, 1, 1)
-#
-# macro variable*(id: untyped): stmt =
-#   let symbol = newStrLitNode($(id))
-#   result = getAst(v(symbol, id))
 
 proc deg*[A](p: Polynomial[A]): int {.inline.} =
   p.coefficients.len - 1

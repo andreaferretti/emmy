@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import ./structures
+
 # TODO: make it work with the constraint A, B: AdditiveMonoid
 proc `+`*[A, B](x, y: tuple[a: A, b: B]): tuple[a: A, b: B] =
   let

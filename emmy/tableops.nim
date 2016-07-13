@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import tables
+import ./structures
+
 proc `+`*[K; V: AdditiveMonoid](s, t: TableRef[K, V]): TableRef[K, V] =
   new result
   result[] = initTable[K, V]()
