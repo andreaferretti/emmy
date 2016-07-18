@@ -12,4 +12,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import structures, pairs, operations, tableops, modular, quotient, polynomials, linear, primality
+import tstructures, tpairs, toperations, ttableops, tmodular, tquotient,
+  tpolynomials, tlinear, tprimality
