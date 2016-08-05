@@ -35,3 +35,6 @@ task tests, "run emmy tests":
   --path: "."
   --run
   setCommand "c", "tests/all"
+
+task test, "run emmy tests":
+  setCommand "tests"

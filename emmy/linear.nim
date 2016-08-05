@@ -51,8 +51,8 @@ proc `*`*[A: Ring](v, w: Vector[A]): A =
   for i in 0 .. < v.len:
     result += v[i] * w[i]
 
-template colM(i, j, M, N: expr): expr = j * M + i
-template rowM(i, j, M, N: expr): expr = i * N + j
+template colM(i, j, M, N: auto): auto = j * M + i
+template rowM(i, j, M, N: auto): auto = i * N + j
 
 proc makeMatrix*[A](M, N: int, f: proc(i, j: int): A, order = colMajor): Matrix[A] =
   result.data = newSeq[A](M * N)
@@ -97,7 +97,7 @@ proc `==`*[A: AdditiveGroup](m, n: Matrix[A]): bool =
   return true
 
 proc `+=`*[A: AdditiveGroup](m: var Matrix[A], n: Matrix[A]) =
-  assert ((m.M == n.M) and (m.N == n.N))
+  assert((m.M == n.M) and (m.N == n.N))
   if m.order == n.order:
     for i in 0 .. < m.data.len:
       m.data[i] = m.data[i] + n.data[i]
@@ -111,13 +111,13 @@ proc `+=`*[A: AdditiveGroup](m: var Matrix[A], n: Matrix[A]) =
         m.data[rowM(i, j, m.M, m.N)] += n.data[colM(i, j, m.M, m.N)]
 
 proc `+`*[A: AdditiveGroup](m, n: Matrix[A]): Matrix[A] =
-  assert ((m.M == n.M) and (m.N == n.N))
+  assert((m.M == n.M) and (m.N == n.N))
   assert m.data.len == n.data.len
   result = m
   result += n
 
 proc `-=`*[A: AdditiveGroup](m: var Matrix[A], n: Matrix[A]) =
-  assert ((m.M == n.M) and (m.N == n.N))
+  assert((m.M == n.M) and (m.N == n.N))
   if m.order == n.order:
     for i in 0 .. < m.data.len:
       m.data[i] = m.data[i] - n.data[i]
@@ -131,7 +131,7 @@ proc `-=`*[A: AdditiveGroup](m: var Matrix[A], n: Matrix[A]) =
         m.data[rowM(i, j, m.M, m.N)] -= n.data[colM(i, j, m.M, m.N)]
 
 proc `-`*[A: AdditiveGroup](m, n: Matrix[A]): Matrix[A] =
-  assert ((m.M == n.M) and (m.N == n.N))
+  assert((m.M == n.M) and (m.N == n.N))
   assert m.data.len == n.data.len
   result = m
   result -= n
@@ -150,7 +150,7 @@ proc `*`*[A: Ring](m: Matrix[A], v: Vector[A]): Vector[A] =
       for j in 0 .. < m.N:
         result[i] += m.data[rowM(i, j, m.M, m.N)] * v[j]
 
-template multiply(result, m, n, data_m, data_n: expr) =
+template multiply(result, m, n, data_m, data_n: auto) =
   for i in 0 .. < result.M:
     for j in 0 .. < result.N:
       result.data[colM(i, j, result.M, result.N)] = zero(type(m.data[0]))

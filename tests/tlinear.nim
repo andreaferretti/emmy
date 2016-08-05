@@ -14,6 +14,8 @@
 
 import emmy, unittest
 
+{.warning[ProveInit]: off.} 
+
 suite "test linear algebra operations":
   test "operations over vectors":
     let
