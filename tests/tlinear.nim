@@ -14,7 +14,7 @@
 
 import emmy, unittest
 
-{.warning[ProveInit]: off.} 
+{.push warning[ProveInit]: off.}
 
 suite "test linear algebra operations":
   test "operations over vectors":
@@ -207,3 +207,5 @@ suite "test linear algebra operations":
     check(w == v)
     m[0, 0] = 0
     check(w[0] == 0)
+
+{.pop.}
