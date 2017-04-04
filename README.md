@@ -41,29 +41,29 @@ mathematics:
 
 ```nim
 type
-  AdditiveMonoid* = concept x, y
-    x + y is type(x)
-    zero(type(x)) is type(x)
-  AdditiveGroup* = concept x, y
-    x is AdditiveMonoid
-    -x is type(x)
-    x - y is type(x)
-  MultiplicativeMonoid* = concept x, y
-    x * y is type(x)
-    id(type(x)) is type(x)
-  MultiplicativeGroup* = concept x, y
-    x is MultiplicativeMonoid
-    x / y is type(x)
-  Ring* = concept x
-    x is AdditiveGroup
-    x is MultiplicativeMonoid
-  EuclideanRing* = concept x, y
-    x is Ring
-    x div y is type(x)
-    x mod y is type(x)
-  Field* = concept x
-    x is Ring
-    x is MultiplicativeGroup
+  AdditiveMonoid* = concept x, y, type T
+    x + y is T
+    zero(T) is T
+  AdditiveGroup* = concept x, y, type T
+    T is AdditiveMonoid
+    -x is T
+    x - y is T
+  MultiplicativeMonoid* = concept x, y, type T
+    x * y is T
+    id(T) is T
+  MultiplicativeGroup* = concept x, y, type T
+    T is MultiplicativeMonoid
+    x / y is T
+  Ring* = concept type T
+    T is AdditiveGroup
+    T is MultiplicativeMonoid
+  EuclideanRing* = concept x, y, type T
+    T is Ring
+    x div y is T
+    x mod y is T
+  Field* = concept type T
+    T is Ring
+    T is MultiplicativeGroup
 ```
 
 We notice a couple of ways where the mechanical encoding strays from the
