@@ -28,13 +28,13 @@ proc reduce[A](s: seq[A]): seq[A] =
   if L < 0: return @[]
   else: return s[0 .. L]
 
-proc polynomial*[A](a: seq[A]): Polynomial[A] =
+proc polynomial*[A: Ring](a: seq[A]): Polynomial[A] =
   Polynomial[A](coefficients: reduce(a))
 
 proc reduce[A](p: Polynomial[A]): Polynomial[A] =
   polynomial(p.coefficients)
 
-proc poly*[A](a: varargs[A]): Polynomial[A] =
+proc poly*[A: Ring](a: varargs[A]): Polynomial[A] =
   Polynomial[A](coefficients: reduce(@a))
 
 proc monomial*[A](n: int, a: A): Polynomial[A] =

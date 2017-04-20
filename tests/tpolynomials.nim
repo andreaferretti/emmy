@@ -82,7 +82,7 @@ suite "test polynomials implementation":
 
   test "polynomials over a field are an Euclidean ring":
     let a = poly(1.0, 3.0, -2.5)
-    check(a is AdditiveGroup)
+    check(a is EuclideanRing)
 
   test "polynomials over a ring are a ring":
     let b = poly(1, 3, -2)
