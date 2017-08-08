@@ -34,7 +34,7 @@ task tests, "run emmy tests":
   --debuginfo
   --path: "."
   --run
-  setCommand "c", "tests/all"
+  setCommand "c", "tests/all.nim"
 
 task test, "run emmy tests":
   setCommand "tests"
