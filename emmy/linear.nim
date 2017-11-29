@@ -25,30 +25,30 @@ type
 
 proc `+=`*[A: AdditiveGroup](v: var Vector[A], w: Vector[A]) =
   assert v.len == w.len
-  for i in 0 .. < v.len:
+  for i in 0 ..< v.len:
     v[i] = v[i] + w[i]
 
 proc `+`*[A: AdditiveGroup](v, w: Vector[A]): Vector[A] =
   assert v.len == w.len
   result = newSeq[A](v.len)
-  for i in 0 .. < v.len:
+  for i in 0 ..< v.len:
     result[i] = v[i] + w[i]
 
 proc `-=`*[A: AdditiveGroup](v: var Vector[A], w: Vector[A]) =
   assert v.len == w.len
-  for i in 0 .. < v.len:
+  for i in 0 ..< v.len:
     v[i] = v[i] - w[i]
 
 proc `-`*[A: AdditiveGroup](v, w: Vector[A]): Vector[A] =
   assert v.len == w.len
   result = newSeq[A](v.len)
-  for i in 0 .. < v.len:
+  for i in 0 ..< v.len:
     result[i] = v[i] - w[i]
 
 proc `*`*[A: Ring](v, w: Vector[A]): A =
   assert v.len == w.len
   result = zero(A)
-  for i in 0 .. < v.len:
+  for i in 0 ..< v.len:
     result += v[i] * w[i]
 
 template colM(i, j, M, N: auto): auto = j * M + i
@@ -60,12 +60,12 @@ proc makeMatrix*[A](M, N: int, f: proc(i, j: int): A, order = colMajor): Matrix[
   result.N = N
   result.order = order
   if order == colMajor:
-    for i in 0 .. < M:
-      for j in 0 .. < N:
+    for i in 0 ..< M:
+      for j in 0 ..< N:
         result.data[colM(i, j, M, N)] = f(i, j)
   else:
-    for i in 0 .. < M:
-      for j in 0 .. < N:
+    for i in 0 ..< M:
+      for j in 0 ..< N:
         result.data[rowM(i, j, M, N)] = f(i, j)
 
 proc matrix*[A](xs: seq[seq[A]], order = colMajor): Matrix[A] =
@@ -85,13 +85,13 @@ proc `==`*[A: AdditiveGroup](m, n: Matrix[A]): bool =
   if (m.M != n.M) or (m.N != n.N): return false
   if m.order == n.order: return m.data == n.data
   if m.order == colMajor:
-    for i in 0 .. < m.M:
-      for j in 0 .. < m.N:
+    for i in 0 ..< m.M:
+      for j in 0 ..< m.N:
         if m.data[colM(i, j, m.M, m.N)] != n.data[rowM(i, j, m.M, m.N)]:
           return false
   else:
-    for i in 0 .. < m.M:
-      for j in 0 .. < m.N:
+    for i in 0 ..< m.M:
+      for j in 0 ..< m.N:
         if m.data[rowM(i, j, m.M, m.N)] != n.data[colM(i, j, m.M, m.N)]:
           return  false
   return true
@@ -99,15 +99,15 @@ proc `==`*[A: AdditiveGroup](m, n: Matrix[A]): bool =
 proc `+=`*[A: AdditiveGroup](m: var Matrix[A], n: Matrix[A]) =
   assert((m.M == n.M) and (m.N == n.N))
   if m.order == n.order:
-    for i in 0 .. < m.data.len:
+    for i in 0 ..< m.data.len:
       m.data[i] = m.data[i] + n.data[i]
   elif m.order == colMajor:
-    for i in 0 .. < m.M:
-      for j in 0 .. < m.N:
+    for i in 0 ..< m.M:
+      for j in 0 ..< m.N:
         m.data[colM(i, j, m.M, m.N)] += n.data[rowM(i, j, m.M, m.N)]
   else:
-    for i in 0 .. < m.M:
-      for j in 0 .. < m.N:
+    for i in 0 ..< m.M:
+      for j in 0 ..< m.N:
         m.data[rowM(i, j, m.M, m.N)] += n.data[colM(i, j, m.M, m.N)]
 
 proc `+`*[A: AdditiveGroup](m, n: Matrix[A]): Matrix[A] =
@@ -119,15 +119,15 @@ proc `+`*[A: AdditiveGroup](m, n: Matrix[A]): Matrix[A] =
 proc `-=`*[A: AdditiveGroup](m: var Matrix[A], n: Matrix[A]) =
   assert((m.M == n.M) and (m.N == n.N))
   if m.order == n.order:
-    for i in 0 .. < m.data.len:
+    for i in 0 ..< m.data.len:
       m.data[i] = m.data[i] - n.data[i]
   elif m.order == colMajor:
-    for i in 0 .. < m.M:
-      for j in 0 .. < m.N:
+    for i in 0 ..< m.M:
+      for j in 0 ..< m.N:
         m.data[colM(i, j, m.M, m.N)] -= n.data[rowM(i, j, m.M, m.N)]
   else:
-    for i in 0 .. < m.M:
-      for j in 0 .. < m.N:
+    for i in 0 ..< m.M:
+      for j in 0 ..< m.N:
         m.data[rowM(i, j, m.M, m.N)] -= n.data[colM(i, j, m.M, m.N)]
 
 proc `-`*[A: AdditiveGroup](m, n: Matrix[A]): Matrix[A] =
@@ -140,21 +140,21 @@ proc `*`*[A: Ring](m: Matrix[A], v: Vector[A]): Vector[A] =
   assert v.len == m.N
   result = newSeq[A](m.M)
   if m.order == colMajor:
-    for i in 0 .. < m.M:
+    for i in 0 ..< m.M:
       result[i] = zero(A)
-      for j in 0 .. < m.N:
+      for j in 0 ..< m.N:
         result[i] += m.data[colM(i, j, m.M, m.N)] * v[j]
   else:
-    for i in 0 .. < m.M:
+    for i in 0 ..< m.M:
       result[i] = zero(A)
-      for j in 0 .. < m.N:
+      for j in 0 ..< m.N:
         result[i] += m.data[rowM(i, j, m.M, m.N)] * v[j]
 
 template multiply(result, m, n, data_m, data_n: auto) =
-  for i in 0 .. < result.M:
-    for j in 0 .. < result.N:
+  for i in 0 ..< result.M:
+    for j in 0 ..< result.N:
       result.data[colM(i, j, result.M, result.N)] = zero(type(m.data[0]))
-      for k in 0 .. < m.N:
+      for k in 0 ..< m.N:
         result.data[colM(i, j, result.M, result.N)] += m.data[data_m(i, k, m.M, m.N)] * n.data[data_n(k, j, n.M, n.N)]
 
 proc `*`*[A: Ring](m, n: Matrix[A]): Matrix[A] =

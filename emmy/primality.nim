@@ -42,7 +42,7 @@ proc test(n, a: Integer): bool =
     one = id(type(a)).modulo(n)
   var x = power(b, d)
   if (x == one) or (x == -one): return true
-  for i in 0 .. < s:
+  for i in 0 ..< s:
     x = x * x
     if x == one: return false
     if x == -one: return true

@@ -22,7 +22,7 @@ proc reduce[A](s: seq[A]): seq[A] =
   if s.len == 0: return s
   let z = zero(A)
   var L = s.len - 1
-  for i in 0 .. < s.len:
+  for i in 0 ..< s.len:
     if s[L] == z: L -= 1
     else: break
   if L < 0: return @[]
@@ -39,7 +39,7 @@ proc poly*[A: Ring](a: varargs[A]): Polynomial[A] =
 
 proc monomial*[A](n: int, a: A): Polynomial[A] =
   var c = newSeq[A](n + 1)
-  for i in 0 .. < n:
+  for i in 0 ..< n:
     c[i] = zero(A)
   c[n] = a
   return polynomial(c)
@@ -82,9 +82,9 @@ proc `==`*[A](p: A, q: Polynomial[A]): bool =
 proc sumSeq[A](s, t: seq[A]): seq[A] =
   if s.len >= t.len:
     result = newSeq[A](s.len)
-    for i in 0 .. < t.len:
+    for i in 0 ..< t.len:
       result[i] = s[i] + t[i]
-    for i in t.len .. < s.len:
+    for i in t.len ..< s.len:
       result[i] = s[i]
   else: return sumSeq(t, s)
 
@@ -120,7 +120,7 @@ proc mulSeq[A](s, t: seq[A]): seq[A] =
     Ls = s.len
     Lt = t.len
   var p = newSeq[A](Ls + Lt)
-  for i in 0 .. < Ls + Lt - 1:
+  for i in 0 ..< Ls + Lt - 1:
     p[i] = z
     for j in max(0, i + 1 - Lt) .. min(i, Ls - 1):
       p[i] += s[j] * t[i - j]
