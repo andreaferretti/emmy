@@ -40,7 +40,7 @@ proc test(n, a: Integer): bool =
     (s, d) = mrCoefficients(n - 1)
     b = a.modulo(n)
     one = id(type(a)).modulo(n)
-  var x = power(b, d)
+  var x = power1(b, d)
   if (x == one) or (x == -one): return true
   for i in 0 ..< s:
     x = x * x

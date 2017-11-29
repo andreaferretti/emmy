@@ -23,21 +23,22 @@ type
     -x is T
     x - y is T
   MultiplicativeMonoid* = concept x, y, type T
-    discard x * y is T
-    discard id(T) is T
+    x * y is T
+    id(T) is T
   MultiplicativeGroup* = concept x, y, type T
-    discard T is MultiplicativeMonoid
-    discard x / y is T
+    T is MultiplicativeMonoid
+    x / y is T
   Ring* = concept type T
-    discard T is AdditiveGroup
+    T is AdditiveGroup
+    # TODO: why is `discard` needed here?
     discard T is MultiplicativeMonoid
   EuclideanRing* = concept x, y, type T
-    discard T is Ring
-    discard x div y is T
-    discard x mod y is T
+    T is Ring
+    x div y is T
+    x mod y is T
   Field* = concept type T
-    discard T is Ring
-    discard T is MultiplicativeGroup
+    T is Ring
+    T is MultiplicativeGroup
 
 proc zero*(x: typedesc[int]): int = 0
 proc zero*(x: typedesc[int32]): int32 = 0
