@@ -30,8 +30,7 @@ type
     x / y is T
   Ring* = concept type T
     T is AdditiveGroup
-    # TODO: why is `discard` needed here?
-    discard T is MultiplicativeMonoid
+    T is MultiplicativeMonoid
   EuclideanRing* = concept x, y, type T
     T is Ring
     x div y is T

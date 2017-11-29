@@ -71,7 +71,8 @@ proc `$`*[A](p: Polynomial[A]): string =
 proc zero*[A](x: typedesc[Polynomial[A]]): Polynomial[A] =
   Polynomial[A](coefficients: @[])
 
-proc id*[A](x: typedesc[Polynomial[A]]): Polynomial[A] = polynomial(id(A))
+proc id*[A](x: typedesc[Polynomial[A]]): Polynomial[A] =
+  poly(id(A))
 
 proc `==`*[A](p: Polynomial[A], q: A): bool =
   (p.deg == -1 and q == zero(A)) or (p.deg == 0 and p.coefficients[0] == q)

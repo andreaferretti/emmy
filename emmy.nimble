@@ -34,6 +34,7 @@ task tests, "run emmy tests":
   --debuginfo
   --path: "."
   --run
+  --define: reportConceptFailures
   setCommand "c", "tests/all.nim"
 
 task test, "run emmy tests":
