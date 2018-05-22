@@ -65,8 +65,8 @@ proc `$`*[A](p: Polynomial[A]): string =
         if x == id(A): result &= "X"
         else: result &= $(x) & "*" & "X"
       else:
-        if x == id(A): result &= "X" & "^"  & $(i)
-        else: result &= $(x) & "*" & "X" & "^"  & $(i)
+        if x == id(A): result &= "X" & "^" & $(i)
+        else: result &= $(x) & "*" & "X" & "^" & $(i)
 
 proc zero*[A](x: typedesc[Polynomial[A]]): Polynomial[A] =
   Polynomial[A](coefficients: @[])
