@@ -175,7 +175,7 @@ proc t*[A](m: Matrix[A]): Matrix[A] =
     M: m.N,
     N: m.M,
     order: (if m.order == colMajor: rowMajor else: colMajor),
-    data: nil
+    data: @[]
   )
   shallowCopy(result.data, m.data)
 
