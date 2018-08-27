@@ -16,25 +16,25 @@ import bigints
 
 type
   AdditiveMonoid* = concept x, y, type T
-    x + y is type(x)
-    zero(T) is type(x)
+    x + y is T
+    zero(T) is T
   AdditiveGroup* = concept x, y, type T
     T is AdditiveMonoid
-    -x is type(x)
-    x - y is type(x)
+    -x is T
+    x - y is T
   MultiplicativeMonoid* = concept x, y, type T
-    x * y is type(x)
-    id(T) is type(x)
+    x * y is T
+    id(T) is T
   MultiplicativeGroup* = concept x, y, type T
     T is MultiplicativeMonoid
-    x / y is type(x)
+    x / y is T
   Ring* = concept type T
     T is AdditiveGroup
     T is MultiplicativeMonoid
   EuclideanRing* = concept x, y, type T
     T is Ring
-    x div y is type(x)
-    x mod y is type(x)
+    x div y is T
+    x mod y is T
   Field* = concept type T
     T is Ring
     T is MultiplicativeGroup
