@@ -66,14 +66,14 @@ proc lcm*(r, s: EuclideanRing): auto =
 # Returns a, b such that
 # d = ar + bs
 # where d = gcd(r, s)
-proc gcdCoefficients*(a, b: EuclideanRing): (type(a), type(a)) =
+proc gcdCoefficients*[R: EuclideanRing](a, b: R): (R, R) =
   let
-    one = id(type(a))
-    z = zero(type(a))
+    one = id(R)
+    z = zero(R)
   var
     x = a
     y = b
-    quotients: seq[type(a)] = @[]
+    quotients: seq[R] = @[]
   while y != z:
     let
       q = x div y
