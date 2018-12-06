@@ -61,7 +61,7 @@ proc gcd*[R: EuclideanRing](r, s: R): R =
   return a
 
 proc lcm*[R: EuclideanRing](r, s: R): R =
-  (r * s) div gcd(r, s)
+  r * (s div gcd(r, s))
 
 # Returns a, b such that
 # d = ar + bs
