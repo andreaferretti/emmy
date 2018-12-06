@@ -49,7 +49,7 @@ proc power1*[A](r: A, n: int): auto =
     s = s * s
     n = n div 2
 
-proc gcd*(r, s: EuclideanRing): auto =
+proc gcd*[R: EuclideanRing](r, s: R): R =
   let z = zero(type(r))
   var
     a = r
@@ -60,7 +60,7 @@ proc gcd*(r, s: EuclideanRing): auto =
     b = q
   return a
 
-proc lcm*(r, s: EuclideanRing): auto =
+proc lcm*[R: EuclideanRing](r, s: R): R =
   (r * s) div gcd(r, s)
 
 # Returns a, b such that
