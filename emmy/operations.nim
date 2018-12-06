@@ -25,7 +25,7 @@ proc power*[A](r: A, n: int): A =
     s = r
   result = id(r.type)
   while n > 0:
-    if n %% 2 == 1:
+    if n mod 2 == 1:
       result = result * s
     s = s * s
     n = n div 2
@@ -44,17 +44,37 @@ proc power1*[A](r: A, n: int): auto =
     s = r
   result = id(r)
   while n > 0:
-    if n %% 2 == 1:
+    if n mod 2 == 1:
       result = result * s
     s = s * s
     n = n div 2
 
 proc gcd*(r, s: EuclideanRing): auto =
+  let z = zero(type(r))
   var
     a = r
     b = s
-  while b != 0:
-    let q = a %% b
+  while b != z:
+    let q = a mod b
     a = b
     b = q
   return a
+
+proc lcm*(r, s: EuclideanRing): auto =
+  (r * s) div gcd(r, s)
+
+# Returns a, b such that
+# d = ar + bs
+# where d = gcd(r, s)
+proc gcdCoefficients*(a, b: int): (type(a), type(a)) =
+  let
+    one = id(type(a))
+    z = zero(type(a))
+  if b == z:
+    return (one, z)
+  else:
+    let
+      q = a div b
+      r = a mod b
+      (x, y) = gcdCoefficients(b, r)
+    return (y, x - q * y)

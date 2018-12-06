@@ -27,3 +27,15 @@ suite "test algebraic operations":
     check(gcd(24, 12) == 12)
     check(gcd(24, 16) == 8)
     check(gcd(220082744, 16126636) == 4516)
+
+  test "lcm gives the correct results":
+    check(lcm(2, 5) == 10)
+    check(lcm(24, 12) == 24)
+    check(lcm(24, 16) == 48)
+    check(lcm(220082744, 16126636) == 785915478824)
+
+  test "we can write the gcd as a linear combination":
+    check(gcdCoefficients(23, 17) == (3, -4))
+    check(gcdCoefficients(2, 5) == (-2, 1))
+    check(gcdCoefficients(24, 12) == (0, 1))
+    check(gcdCoefficients(24, 16) == (1, -1))
