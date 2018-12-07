@@ -12,5 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import tstructures, tpairs, toperations, ttableops, tmodular, tquotient,
-  tpolynomials, tlinear, tprimality, tfinite_fields
+import emmy, unittest
+
+suite "test finite fields implementations":
+  test "operations modulo a prime":
+    let
+      a = 3.Modulo7
+      b = 5.Modulo7
+    check(a + b == 1.Modulo7)
+    check(a - b == 5.Modulo7)
+    check(a * b == 1.Modulo7)
+    check(a / b == 2.Modulo7)
+  test "operations modulo a non-prime":
+    let
+      a = 8.Modulo12
+      b = 5.Modulo12
+    check(a + b == 1.Modulo12)
+    check(a - b == 3.Modulo12)
+    check(a * b == 4.Modulo12)
+    when compiles(a / b):
+      fail
