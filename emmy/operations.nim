@@ -70,20 +70,17 @@ proc gcdCoefficients*[R: EuclideanRing](a, b: R): (R, R) =
   let
     one = id(R)
     z = zero(R)
+
   var
-    x = a
-    y = b
-    quotients: seq[R] = @[]
-  while y != z:
+    (x1, x2, y1, y2) = (z, one, one, z)
+    a1 = a
+    b1 = b
+  while b1 != z:
     let
-      q = x div y
-      r = x mod y
-    quotients.add(q)
-    (x, y) = (y, r)
-  var
-    c = one
-    d = z
-  for i in countdown(len(quotients) - 1, 0):
-    let q = quotients[i]
-    (c, d)  = (d, c - q * d)
-  return (c, d)
+      q = a1 div b1
+      r = a1 mod b1
+      x = x2 - q * x1
+      y = y2 - q * y1
+    (a1, b1, x2, x1, y2, y1) = (b1, r, x1, x, y1, y)
+
+  return (x2, y2)
