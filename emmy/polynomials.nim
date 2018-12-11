@@ -138,7 +138,7 @@ template `*=`*[A](a: var Polynomial[A], b: Polynomial[A]) =
   let c = a
   a = c * b
 
-proc division*[A](s, t: Polynomial[A]): tuple[q, r: Polynomial[A]] =
+proc divmod*[A](s, t: Polynomial[A]): tuple[q, r: Polynomial[A]] =
   if deg(t) > deg(s): (zero(Polynomial[A]), s)
   else:
     let
@@ -146,15 +146,15 @@ proc division*[A](s, t: Polynomial[A]): tuple[q, r: Polynomial[A]] =
       b = top(t)
       q_0 = monomial(deg(s) - deg(t), a / b)
       r_0 = reduce(s - (q_0 * t))
-      (q_1, r) = division(r_0, t)
+      (q_1, r) = divmod(r_0, t)
     (q_0 + q_1, r)
 
 proc `div`*[A](s, t: Polynomial[A]): Polynomial[A] =
-  let (q, r) = division(s, t)
+  let (q, r) = divmod(s, t)
   q
 
 proc `mod`*[A](s, t: Polynomial[A]): Polynomial[A] =
-  let (q, r) = division(s, t)
+  let (q, r) = divmod(s, t)
   r
 
 template `%%`*(s, t: Polynomial): auto = s mod t
