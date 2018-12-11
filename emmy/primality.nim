@@ -113,3 +113,13 @@ proc nextPrime*(n: int): int =
   for i in sortedPrimesUpTo(bound):
     if i >= n: return i
   # return nil
+
+proc primeRadix*(n: int): int =
+  let nf = n.float
+  for k in countdown(log2(nf).int, 1):
+    let p = pow(nf, 1 / k).round.int
+    if p ^ k == n and p.isPrime:
+      return p
+
+proc isPrimePower*(n: int): bool =
+  primeRadix(n) != 0
