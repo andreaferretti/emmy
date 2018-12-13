@@ -14,6 +14,11 @@
 
 import ./structures
 
+## The following type is meant to be used when the modulo is only known at
+## runtime. Unfortunately, this means we can only check for mismatches
+## between moduli at runtime. Moreover, we have no way of generating - given
+## just the type - the zero and unit elements. Finally, the memory usage is
+## doubled because each element has to hold its modulo as well.
 type Modular*[A] = object
   a, m: A
 

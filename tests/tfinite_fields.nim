@@ -15,20 +15,20 @@
 import emmy, unittest
 
 suite "test finite fields implementations":
-  test "operations modulo a prime":
+  test "operations pmod a prime":
     let
-      a = 3.Modulo7
-      b = 5.Modulo7
-    check(a + b == 1.Modulo7)
-    check(a - b == 5.Modulo7)
-    check(a * b == 1.Modulo7)
-    check(a / b == 2.Modulo7)
-  test "operations modulo a non-prime":
+      a = 3.pmod(7)
+      b = 5.pmod(7)
+    check(a + b == 1.pmod(7))
+    check(a - b == 5.pmod(7))
+    check(a * b == 1.pmod(7))
+    check(a / b == 2.pmod(7))
+  test "operations pmod a non-prime":
     let
-      a = 8.Modulo12
-      b = 5.Modulo12
-    check(a + b == 1.Modulo12)
-    check(a - b == 3.Modulo12)
-    check(a * b == 4.Modulo12)
+      a = 8.pmod(12)
+      b = 5.pmod(12)
+    check(a + b == 1.pmod(12))
+    check(a - b == 3.pmod(12))
+    check(a * b == 4.pmod(12))
     when compiles(a / b):
       fail

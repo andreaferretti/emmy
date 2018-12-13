@@ -22,7 +22,7 @@ license       = "Apache2"
 skipDirs      = @["tests"]
 skipFiles     = @["emmy.html", "emmy.png"]
 
-requires "nim >= 0.11.2", "bigints >= 0.4.2"
+requires "nim >= 0.11.2", "bigints >= 0.4.2", "ast_pattern_matching >= 1.0.0"
 
 --forceBuild
 
