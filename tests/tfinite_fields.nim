@@ -15,20 +15,11 @@
 import emmy, unittest
 
 suite "test finite fields implementations":
-  test "operations pmod a prime":
+  test "operations in F8":
+    finiteField(8, FF8)
+
     let
-      a = 3.pmod(7)
-      b = 5.pmod(7)
-    check(a + b == 1.pmod(7))
-    check(a - b == 5.pmod(7))
-    check(a * b == 1.pmod(7))
-    check(a / b == 2.pmod(7))
-  test "operations pmod a non-prime":
-    let
-      a = 8.pmod(12)
-      b = 5.pmod(12)
-    check(a + b == 1.pmod(12))
-    check(a - b == 3.pmod(12))
-    check(a * b == 4.pmod(12))
-    when compiles(a / b):
-      fail
+      alpha = gen(FF8)
+      beta = alpha * alpha * alpha
+      gamma = id(FF8) + alpha * alpha
+    check(beta == gamma)

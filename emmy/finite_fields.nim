@@ -1,64 +1,82 @@
-import macros, ast_pattern_matching
-import ./structures, ./primality, ./operations, ./polynomials
+# Copyright 2016 UniCredit S.p.A.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-## The following type is meant to be used when the modulo is known
-## statically. It has better properties than its dynamic counterpart -
-## in particular we can make it into a ring. Unfortunately, due this bug
-## https://github.com/nim-lang/Nim/issues/7209
-## we can only define it for a given concrete type - here `int`.
-type Modulo*[N: static[int]] = distinct int
+import macros
+import math except gcd
+import ./primality, ./integers_modulo
 
-proc `$`*[N: static[int]](x: Modulo[N]): string =
-  $(int(x)) & " mod " & $(N)
+template makeFiniteField(N: int): untyped =
+  when isPrimePower(N):
+    const
+      P = primeRadix(N)
+      k = (log2(N.float) / log2(P.float)).int
 
-proc pp*[N: static[int]](x: Modulo[N]): string = $(int(x))
+    type
+      Base = Modulo[P]
+      PBase = Polynomial[Base]
+      FF = distinct Polynomial[Base]
 
-proc pmod*(a: int, N: static[int]): Modulo[N] = Modulo[N](a mod N)
+    let p = generateIrreduciblePolynomial(P, k)
 
-proc `+`*[N: static[int]](x, y: Modulo[N]): Modulo[N] =
-  (int(x) + int(y)).pmod(N)
+    proc `+`(a, b: FF): FF =
+      FF((PBase(a) + PBase(b)) mod p)
 
-proc `-`*[N: static[int]](x, y: Modulo[N]): Modulo[N] =
-  (int(x) - int(y)).pmod(N)
+    proc `-`(a, b: FF): FF =
+      FF((PBase(a) + PBase(b)) mod p)
 
-proc `-`*[N: static[int]](x: Modulo[N]): Modulo[N] =
-  (N - int(x)).pmod(N)
+    proc `*`(a, b: FF): FF =
+      FF((PBase(a) * PBase(b)) mod p)
 
-proc `*`*[N: static[int]](x, y: Modulo[N]): Modulo[N] =
-  (int(x) * int(y)).pmod(N)
+    proc `==`(a, b: FF): bool =
+      (PBase(a) mod p) == (PBase(b) mod p)
 
-proc inv*[N: static[int]](a: Modulo[N]): Modulo[N] =
-  when isPrime(N):
-    if a.int mod N == 0:
-      raise newException(DivByZeroError, "Division by 0")
-    else:
-      let (x, _) = gcdCoefficients(a.int, N)
-      return x.pmod(N)
+    let alpha = FF(poly(Base(0), Base(1)))
+
+    proc gen(T: typedesc[FF]): FF = alpha
+    proc zero(T: typedesc[FF]): FF = FF(poly())
+    proc id(T: typedesc[FF]): FF = FF(poly(Base(1)))
+
+    proc `$`(a: FF): string =
+      let f = PBase(a)
+      let z = zero(Base)
+      let one = id(Base)
+      var firstTerm = true
+      for i, c in f.coefficients:
+        if c != z:
+          if not firstTerm:
+            result &= " + "
+          firstTerm = false
+          if i == 0 or c != one:
+            result &= pp(c)
+          if i == 1:
+            result &= "α"
+          elif i == 2:
+            result &= "α²"
+          elif i == 3:
+            result &= "α³"
+          elif i > 1:
+            result &= "α^" & $(i)
+      result &= " where α is a root of " & $(p) & " in ℤ/" & $(P) & "ℤ"
+
   else:
-    {.error: $(N) & " is not prime".}
+    {.error: $(N) & " is not a prime power".}
 
-proc `/`*[N: static[int]](x, y: Modulo[N]): Modulo[N] =
-  x * inv(y)
-
-proc `==`*[N: static[int]](x, y: Modulo[N]): bool =
-  (x.int - y.int) mod N == 0
-
-proc zero*[N: static[int]](T: type Modulo[N]): T = 0.pmod(N)
-
-proc id*[N: static[int]](T: type Modulo[N]): T = 1.pmod(N)
-
-template `+=`*[N: static[int]](a: var Modulo[N], b: Modulo[N]) =
-  let c = a
-  a = c + b
-
-template `-=`*[N: static[int]](a: var Modulo[N], b: Modulo[N]) =
-  let c = a
-  a = c - b
-
-template `*=`*[N: static[int]](a: var Modulo[N], b: Modulo[N]) =
-  let c = a
-  a = c * b
-
-template `/=`*[N: static[int]](a: var Modulo[N], b: Modulo[N]) =
-  let c = a
-  a = c / b
+macro finiteField*(n: static int, typeName: untyped): untyped =
+  result = newStmtList(getAst(makeFiniteField(n)))
+  let typeSymbol = result[0][0][1][1][2][0]
+  let exported = quote do:
+    type `typeName` = `typeSymbol`
+  result.add(exported)
+  when defined(emmyDebug):
+    echo result.toStrLit

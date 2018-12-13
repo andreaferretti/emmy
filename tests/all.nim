@@ -13,4 +13,4 @@
 # limitations under the License.
 
 import tstructures, tpairs, toperations, ttableops, tmodular, tquotient,
-  tpolynomials, tlinear, tprimality, tfinite_fields
+  tpolynomials, tlinear, tprimality, tintegers_modulo, tfinite_fields
