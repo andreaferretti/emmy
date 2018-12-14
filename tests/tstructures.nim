@@ -31,3 +31,15 @@ suite "known types implement appropriate typeclasses":
   test "tables with monoid values are an additive monoid":
     let a = { "a": 1, "b": 2 }.newTable
     check(a is AdditiveMonoid)
+
+  test "ℤ/nℤ is a ring":
+    let a = 12.pmod(15)
+    check(a is Ring)
+
+  test "ℤ/pℤ, p prime, is a field":
+    let a = 12.pmod(17)
+    check(a is Field)
+
+  test "rationals are a field":
+    let a = 5 /// 12
+    check(a is Field)
