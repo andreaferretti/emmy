@@ -23,3 +23,4 @@ suite "test finite fields implementations":
       beta = alpha * alpha * alpha
       gamma = id(FF8) + alpha * alpha
     check(beta == gamma)
+    check(beta / alpha == alpha * alpha)

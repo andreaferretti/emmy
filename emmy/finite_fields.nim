@@ -38,6 +38,12 @@ template makeFiniteField(N: int): untyped =
     proc `*`(a, b: FF): FF =
       FF((PBase(a) * PBase(b)) mod p)
 
+    proc inverse(a: FF): FF =
+      let (x, _) = gcdCoefficients(PBase(a), p)
+      return FF(x)
+
+    proc `/`(a, b: FF): FF = a * inverse(b)
+
     proc `==`(a, b: FF): bool =
       (PBase(a) mod p) == (PBase(b) mod p)
 
