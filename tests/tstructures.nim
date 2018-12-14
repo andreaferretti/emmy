@@ -42,4 +42,6 @@ suite "known types implement appropriate typeclasses":
 
   test "rationals are a field":
     let a = 5 /// 12
+    let b = initBigInt(5) /// initBigInt(12)
     check(a is Field)
+    check(b is Field)
