@@ -16,6 +16,7 @@ Algebraic structures and related operations for Nim.
 	- [Primality](#primality)
 	- [Polynomials](#polynomials)
 	- [Linear algebra](#linear-algebra)
+	- [Finite fields](#finite-fields)
 
 <!-- /TOC -->
 
@@ -136,10 +137,24 @@ instances or work recursively, using the isomorphism between `(A, B, C)` and
 
 ## Modular rings
 
-## Quotient rings
+To be documented, see [tests](https://github.com/unicredit/emmy/blob/master/tests/tmodular.nim)
+
+## Fraction rings
+
+To be documented, see [tests](https://github.com/unicredit/emmy/blob/master/tests/tfractions.nim)
 
 ## Primality
 
+To be documented, see [tests](https://github.com/unicredit/emmy/blob/master/tests/tprimality.nim)
+
 ## Polynomials
 
+To be documented, see [tests](https://github.com/unicredit/emmy/blob/master/tests/tpolynomials.nim)
+
 ## Linear algebra
+
+To be documented, see [tests](https://github.com/unicredit/emmy/blob/master/tests/tlinear.nim)
+
+## Finite fields
+
+To be documented, see [tests](https://github.com/unicredit/emmy/blob/master/tests/tfinite_fields.nim)
