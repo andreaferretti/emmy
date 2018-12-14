@@ -74,6 +74,9 @@ proc zero*[A](x: typedesc[Polynomial[A]]): Polynomial[A] =
 proc id*[A](x: typedesc[Polynomial[A]]): Polynomial[A] =
   poly(id(A))
 
+proc X*[A](x: typedesc[Polynomial[A]]): Polynomial[A] =
+  poly(zero(A), id(A))
+
 proc `==`*[A](p: Polynomial[A], q: A): bool =
   (p.deg == -1 and q == zero(A)) or (p.deg == 0 and p.coefficients[0] == q)
 

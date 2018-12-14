@@ -77,9 +77,11 @@ template `/=`*[N: static[int]](a: var Modulo[N], b: Modulo[N]) =
   let c = a
   a = c / b
 
+## Rabin's test for irreducibility, from
+## Rabin, Michael (1980). "Probabilistic algorithms in finite fields". SIAM Journal on Computing. 9 (2): 273–280
 proc isIrreducible*[N: static[int]](p: Polynomial[Modulo[N]]): bool =
   when isPrime(N):
-    let x = poly(Modulo[N](0), Modulo[N](1))
+    let x = X(type(p))
     var powerTerm = x
 
     for _ in  0 ..< (deg(p) div 2):
