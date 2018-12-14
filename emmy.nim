@@ -13,8 +13,8 @@
 # limitations under the License.
 
 import emmy/structures, emmy/pairs, emmy/modular, emmy/operations,
-  emmy/tableops, emmy/quotient, emmy/polynomials, emmy/linear,
+  emmy/tableops, emmy/fractions, emmy/polynomials, emmy/linear,
   emmy/primality, emmy/integers_modulo, emmy/finite_fields
 
-export structures, pairs, modular, operations, tableops, quotient,
+export structures, pairs, modular, operations, tableops, fractions,
   polynomials, linear, primality, integers_modulo, finite_fields

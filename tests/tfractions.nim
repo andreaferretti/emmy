@@ -14,8 +14,8 @@
 
 import emmy, unittest
 
-suite "test quotient ring":
-  test "quotient operations":
+suite "test fraction fields":
+  test "fraction operations":
     let
       a = 2 /// 3
       b = 5 /// 7
@@ -24,22 +24,22 @@ suite "test quotient ring":
     check(a * b == 10 /// 21)
     check(a / b == 14 /// 15)
 
-  test "quotient comparison":
+  test "fraction comparison":
     check(2 /// 3 == 10 /// 15)
     check(3 /// 4 == 15 /// 20)
     check(1 /// 2 == -2 /// -4)
 
-  test "operations with quotients and constants":
+  test "operations with fractions and constants":
     let a = 2 /// 3
     check(a * 3 == 2)
     check(a * 5 == 10 /// 3)
     check(4 * a == 8 /// 3)
     check(1 - a == a / 2)
 
-  test "comparison of quotients and constants":
+  test "comparison of fractions and constants":
     check(15 /// 3 == 5)
     check(-2 == -8 /// 4)
 
-  test "conversion of constants to quotients":
+  test "conversion of constants to fractions":
     check(5.quot == 5 /// 1)
     check(12.quot == 12 /// 1)
