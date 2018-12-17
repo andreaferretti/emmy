@@ -46,9 +46,12 @@ suite "test integers modulo N implementations":
     check(b * a == 4.pmod(12))
 
   test "checking if polynomials are irreducible":
-    let p1 = poly(1.pmod(2), 1.pmod(2), 1.pmod(2))
+    let
+      one = id(Polynomial[Modulo[2]])
+      x = X(Polynomial[Modulo[2]])
+    let p1 = one + x + x^2
     check(p1.isIrreducible)
-    let p2 = poly(1.pmod(2), 1.pmod(2), 0.pmod(2), 1.pmod(2))
+    let p2 = one + x + x^3
     check(p2.isIrreducible)
-    let p3 = poly(1.pmod(2), 1.pmod(2), 1.pmod(2), 1.pmod(2))
+    let p3 = one + x + x^2 + x^3
     check(not p3.isIrreducible)
