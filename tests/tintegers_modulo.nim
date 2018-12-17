@@ -55,3 +55,14 @@ suite "test integers modulo N implementations":
     check(p2.isIrreducible)
     let p3 = one + x + x^2 + x^3
     check(not p3.isIrreducible)
+
+  test "checking if polynomials mod 3 are irreducible":
+    let
+      one = id(Polynomial[Modulo[3]])
+      x = X(Polynomial[Modulo[3]])
+    let p1 = one + x + x^2
+    check(not p1.isIrreducible)
+    let p2 = one + 2.pmod(3) * x + x^3
+    check(p2.isIrreducible)
+    let p3 = one + 2.pmod(3) * x + 2.pmod(3) * x^3
+    check(not p3.isIrreducible)
