@@ -27,13 +27,23 @@ proc `$`*[N: static[int]](x: Modulo[N]): string =
 
 proc pp*[N: static[int]](x: Modulo[N]): string = $(int(x))
 
-proc pmod*(a: int, N: static[int]): Modulo[N] = Modulo[N](a mod N)
+proc pmod*(a: int, N: static[int]): Modulo[N] =
+  var b = a mod N
+  if b < 0:
+    b += N
+  return Modulo[N](b)
 
 proc `+`*[N: static[int]](a, b: Modulo[N]): Modulo[N] =
-  (int(a) + int(b)).pmod(N)
+  var c = int(a) + int(b)
+  if c >= N:
+    c -= N
+  return Modulo[N](c)
 
 proc `-`*[N: static[int]](a, b: Modulo[N]): Modulo[N] =
-  (int(a) - int(b)).pmod(N)
+  var c = int(a) - int(b)
+  if c < 0:
+    c += N
+  return Modulo[N](c)
 
 proc `-`*[N: static[int]](a: Modulo[N]): Modulo[N] =
   (N - int(a)).pmod(N)
