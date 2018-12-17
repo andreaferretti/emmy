@@ -71,6 +71,20 @@ proc zero*[N: static[int]](T: type Modulo[N]): T = 0.pmod(N)
 
 proc id*[N: static[int]](T: type Modulo[N]): T = 1.pmod(N)
 
+template `+`*[N: static[int]](a: Modulo[N], b: int): Modulo[N] = a + b.pmod(N)
+
+template `+`*[N: static[int]](a: int, b: Modulo[N]): Modulo[N] = a.pmod(N) + b
+
+template `-`*[N: static[int]](a: Modulo[N], b: int): Modulo[N] = a - b.pmod(N)
+
+template `-`*[N: static[int]](a: int, b: Modulo[N]): Modulo[N] = a.pmod(N) - b
+
+template `*`*[N: static[int]](a: Modulo[N], b: int): Modulo[N] = a * b.pmod(N)
+
+template `*`*[N: static[int]](a: int, b: Modulo[N]): Modulo[N] = a.pmod(N) * b
+
+template `/`*[N: static[int]](a: Modulo[N], b: int): Modulo[N] = a / b.pmod(N)
+
 template `+=`*[N: static[int]](a: var Modulo[N], b: Modulo[N]) =
   let c = a
   a = c + b

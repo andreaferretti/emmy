@@ -34,6 +34,17 @@ suite "test integers modulo N implementations":
     when compiles(a / b):
       fail
 
+  test "casting of integers to modulo N":
+    let
+      a = 8.pmod(12)
+      b = 5
+    check(a + b == 1.pmod(12))
+    check(a - b == 3.pmod(12))
+    check(a * b == 4.pmod(12))
+    check(b + a == 1.pmod(12))
+    check(b - a == 9.pmod(12))
+    check(b * a == 4.pmod(12))
+
   test "checking if polynomials are irreducible":
     let p1 = poly(1.pmod(2), 1.pmod(2), 1.pmod(2))
     check(p1.isIrreducible)
