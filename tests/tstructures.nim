@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import emmy, unittest, tables, bigints
+import emmy/interop_bigint
 
 suite "known types implement appropriate typeclasses":
   test "integers are an Euclidean ring":

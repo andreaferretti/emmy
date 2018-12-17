@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import bigints
-
 type
   AdditiveMonoid* = concept x, y, type T
     x + y is T
@@ -42,15 +40,11 @@ type
 proc zero*(x: typedesc[int]): int = 0
 proc zero*(x: typedesc[int32]): int32 = 0
 proc zero*(x: typedesc[int64]): int64 = 0
-proc zero*(x: typedesc[BigInt]): BigInt = initBigInt(0)
-# proc zero*(x: float): float = 0
 proc zero*(x: typedesc[float32]): float32 = 0
 proc zero*(x: typedesc[float64]): float64 = 0
 
 proc id*(x: typedesc[int]): int = 1
 proc id*(x: typedesc[int32]): int32 = 1
 proc id*(x: typedesc[int64]): int64 = 1
-proc id*(x: typedesc[BigInt]): BigInt = initBigInt(1)
-# proc id*(x: float): float = 1
 proc id*(x: typedesc[float32]): float32 = 1
 proc id*(x: typedesc[float64]): float64 = 1
