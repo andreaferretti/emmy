@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import emmy, unittest
+import emmy, unittest, random
 
 suite "test integers modulo N implementations":
   test "operations modulo a prime":
@@ -66,3 +66,22 @@ suite "test integers modulo N implementations":
     check(p2.isIrreducible)
     let p3 = one + 2.pmod(3) * x + 2.pmod(3) * x^3
     check(not p3.isIrreducible)
+
+  test "check that a random reducible polynomial is reducible":
+    const P = 17
+    let degree1 = 13
+    let degree2 = 11
+    var
+      rng = initRand(12345)
+      coefficients1 = newSeq[Modulo[P]](degree1 + 1)
+      coefficients2 = newSeq[Modulo[P]](degree2 + 1)
+    for i in 0 .. degree1:
+      coefficients1[i] = rng.rand(P - 1).pmod(P)
+    for i in 0 .. degree2:
+      coefficients2[i] = rng.rand(P - 1).pmod(P)
+    let
+      p1 = polynomial(coefficients1)
+      p2 = polynomial(coefficients2)
+      p = p1 * p2
+
+    check(not p.isIrreducible)
