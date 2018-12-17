@@ -13,14 +13,13 @@
 # limitations under the License.
 
 import macros
-import math except gcd
 import ./primality, ./integers_modulo
 
 template makeFiniteField(N: int): untyped =
   when isPrimePower(N):
     const
-      P = primeRadix(N)
-      k = (log2(N.float) / log2(P.float)).int
+      P = findPrimePower(N).p
+      k = findPrimePower(N).k
 
     type
       Base = Modulo[P]

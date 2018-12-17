@@ -114,12 +114,25 @@ proc nextPrime*(n: int): int =
     if i >= n: return i
   # return nil
 
-proc primeRadix*(n: int): int =
+type PrimeRadix* = object
+  case isPrimePower*: bool
+  of true:
+    p*, k*: int
+  of false:
+    discard
+
+proc findPrimePower*(n: int): PrimeRadix =
   let nf = n.float
   for k in countdown(log2(nf).int, 1):
     let p = pow(nf, 1 / k).round.int
     if p ^ k == n and p.isPrime:
-      return p
+      return PrimeRadix(isPrimePower: true, p: p, k: k)
+  return PrimeRadix(isPrimePower: false)
+
+proc primeRadix*(n: int): int =
+  let x = findPrimePower(n)
+  if x.isPrimePower: return x.p
+  else: return 0
 
 proc isPrimePower*(n: int): bool =
-  primeRadix(n) != 0
+ findPrimePower(n).isPrimePower
