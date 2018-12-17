@@ -12,8 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import emmy, unittest, tables, bigints
+import emmy, unittest, tables, bigints, stint
 import emmy/interop_bigint
+import emmy/interop_stint
 
 suite "known types implement appropriate typeclasses":
   test "integers are an Euclidean ring":
@@ -23,6 +24,9 @@ suite "known types implement appropriate typeclasses":
 
   test "big integers are an Euclidean ring":
     check(initBigInt(1) is EuclideanRing)
+
+  test "stack integers are an Euclidean ring":
+    check(1.stint(8) is AdditiveMonoid) # TODO: fix after https://github.com/status-im/nim-stint/issues/72
 
   test "reals are a field":
     check(1.0 is Field)
@@ -43,6 +47,8 @@ suite "known types implement appropriate typeclasses":
 
   test "rationals are a field":
     let a = 5 /// 12
-    let b = initBigInt(5) /// initBigInt(12)
     check(a is Field)
-    check(b is Field)
+
+  test "rationals over bigints are a field":
+    let a = initBigInt(5) /// initBigInt(12)
+    check(a is Field)

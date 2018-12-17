@@ -12,30 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-mode = ScriptMode.Verbose
+import stint
 
-packageName   = "emmy"
-version       = "0.1.0"
-author        = "Andrea Ferretti"
-description   = "Algebra for Nim"
-license       = "Apache2"
-skipDirs      = @["tests"]
-skipFiles     = @["emmy.html", "emmy.png"]
-
-requires "nim >= 0.19", "bigints >= 0.4.2", "stint >= 0.0.1"
-
---forceBuild
-
-task tests, "run emmy tests":
-  --hints: off
-  --linedir: on
-  --stacktrace: on
-  --linetrace: on
-  --debuginfo
-  --path: "."
-  --run
-  --define: reportConceptFailures
-  setCommand "c", "tests/all.nim"
-
-task test, "run emmy tests":
-  setCommand "tests"
+proc zero*[N: static int](x: typedesc[StInt[N]]): StInt[N] = 0.stint(N)
+proc id*[N: static int](x: typedesc[StInt[N]]): StInt[N] = 1.stint(N)
