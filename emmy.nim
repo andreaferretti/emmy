@@ -14,7 +14,7 @@
 
 import emmy/structures, emmy/pairs, emmy/modular, emmy/operations,
   emmy/tableops, emmy/fractions, emmy/polynomials, emmy/linear,
-  emmy/primality, emmy/integers_modulo, emmy/finite_fields
+  emmy/primality, emmy/integers_modulo, emmy/finite_fields, emmy/normal_forms
 
 export structures, pairs, modular, operations, tableops, fractions,
-  polynomials, linear, primality, integers_modulo, finite_fields
+  polynomials, linear, primality, integers_modulo, finite_fields, normal_forms

@@ -158,3 +158,7 @@ To be documented, see [tests](https://github.com/unicredit/emmy/blob/master/test
 ## Finite fields
 
 To be documented, see [tests](https://github.com/unicredit/emmy/blob/master/tests/tfinite_fields.nim)
+
+## Normal forms of matrices
+
+To be documented, see [tests](https://github.com/unicredit/emmy/blob/master/tests/tnormal_forms.nim)

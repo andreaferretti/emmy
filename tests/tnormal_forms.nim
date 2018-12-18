@@ -12,6 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import tstructures, tpairs, toperations, ttableops, tmodular, tfractions,
-  tpolynomials, tlinear, tprimality, tintegers_modulo, tfinite_fields,
-  tnormal_forms
+import emmy, unittest
+
+suite "test Smith normal form":
+  test "Smith normal form in place":
+    var m = matrix(@[
+      @[1, 2, 3, 4],
+      @[2, 1, 2, 5],
+      @[3, 0, -1, 2],
+      @[2, 1, 1, 7]
+    ])
+    let n = matrix(@[
+      @[1, 0, 0, 0],
+      @[0, -1, 0, 0],
+      @[0, 0, -1, 0],
+      @[0, 0, 0, -24]
+    ])
+    smithInPlace(m)
+    check(m == n)

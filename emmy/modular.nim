@@ -64,3 +64,20 @@ proc id*[A](x: Modular[A]): Modular[A] =
 
 proc zero*[A: EuclideanRing](x: Modular[A]): Modular[A] =
   zero(A).modulo(x.m)
+
+# This is a version of `power` that works
+# for a type `A` where one cannot deduce the identity element
+# from the type `A` alone - in particular modular elements where
+# the modulo is not encoded in the type. We need to find a cleaner
+# solution, but this is used in `primality.test`
+proc power*[A](r: Modular[A], n: int): auto =
+  mixin id
+  var
+    n = n
+    s = r
+  result = id(r)
+  while n > 0:
+    if n mod 2 == 1:
+      result = result * s
+    s = s * s
+    n = n div 2

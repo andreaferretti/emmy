@@ -32,41 +32,10 @@ proc power*[A](r: A, n: int): A =
 
 template `^`*(r: Ring, n: int): auto = power(r, n)
 
-# TODO: remove this. This is a version of `power` that works
-# for a type `A` where one cannot deduce the identity element
-# from the type `A` alone - in particular modular elements where
-# the modulo is not encoded in the type. We need to find a cleaner
-# solution, but this is used in `primality.test`
-proc power1*[A](r: A, n: int): auto =
-  mixin id
-  var
-    n = n
-    s = r
-  result = id(r)
-  while n > 0:
-    if n mod 2 == 1:
-      result = result * s
-    s = s * s
-    n = n div 2
+type GcdResult*[R] = object
+  gcd*, x*, y*: R
 
-proc gcd*[R: EuclideanRing](r, s: R): R =
-  let z = zero(type(r))
-  var
-    a = r
-    b = s
-  while b != z:
-    let q = a mod b
-    a = b
-    b = q
-  return a
-
-proc lcm*[R: EuclideanRing](r, s: R): R =
-  r * (s div gcd(r, s))
-
-# Returns a, b such that
-# d = ar + bs
-# where d = gcd(r, s)
-proc gcdCoefficients*[R: EuclideanRing](a, b: R): (R, R) =
+proc extendedGcd*[R: EuclideanRing](a, b: R): GcdResult[R] =
   let
     one = id(R)
     z = zero(R)
@@ -83,4 +52,28 @@ proc gcdCoefficients*[R: EuclideanRing](a, b: R): (R, R) =
       y = y2 - q * y1
     (a1, b1, x2, x1, y2, y1) = (b1, r, x1, x, y1, y)
 
-  return (x2, y2)
+  return GcdResult[R](gcd: a1, x: x2, y: y2)
+
+proc gcd*[R: EuclideanRing](r, s: R): R =
+  # extendedGcd(r, s).gcd
+  # Simpler implementation to avoid the extended Euclidean algorithm
+  # If cofficients are not needed
+  let z = zero(R)
+  var
+    a = r
+    b = s
+  while b != z:
+    let q = a mod b
+    a = b
+    b = q
+  return a
+
+proc lcm*[R: EuclideanRing](r, s: R): R =
+  r * (s div gcd(r, s))
+
+# Returns x, y such that
+# d = xa + yb
+# where d = gcd(a, b)
+proc gcdCoefficients*[R: EuclideanRing](a, b: R): (R, R) =
+  let g = extendedGcd(a, b)
+  return (g.x, g.y)

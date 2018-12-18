@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import emmy, unittest
+import emmy, unittest, random
 
 suite "test algebraic operations":
   test "powers produce the correct results":
@@ -39,3 +39,11 @@ suite "test algebraic operations":
     check(gcdCoefficients(2, 5) == (-2, 1))
     check(gcdCoefficients(24, 12) == (0, 1))
     check(gcdCoefficients(24, 16) == (1, -1))
+
+  test "the results of gcd and extended gcd agree":
+    var rng = initRand(12345)
+    for _ in 0 .. 100:
+      let
+        a = rng.rand(100000)
+        b = rng.rand(100000)
+      check(gcd(a, b) == extendedGcd(a, b).gcd)

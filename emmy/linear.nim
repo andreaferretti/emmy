@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import strformat
 import ./structures
 
 type
@@ -19,9 +20,9 @@ type
     rowMajor = 101, colMajor = 102 # consistent with BLAS
   Vector*[A] = seq[A]
   Matrix*[A] = object
-    order: OrderType
-    M, N: int
-    data: seq[A]
+    order*: OrderType
+    M*, N*: int
+    data*: seq[A]
 
 proc `+=`*[A: AdditiveGroup](v: var Vector[A], w: Vector[A]) =
   assert v.len == w.len
@@ -181,3 +182,14 @@ proc t*[A](m: Matrix[A]): Matrix[A] =
 
 proc toVector*[A](m: Matrix[A]): Vector[A] =
   shallowCopy(result, m.data)
+
+proc `$`*[A](m: Matrix[A]): string =
+  result = fmt"Matrix {m.M}x{m.N}:"
+  result &= "\n[\n"
+  for i in 0 ..< m.M:
+    for j in 0 ..< m.N:
+      result &= $(m[i, j])
+      if j + 1 < m.N:
+        result &= "\t"
+    result &= "\n"
+  result &= "]"
