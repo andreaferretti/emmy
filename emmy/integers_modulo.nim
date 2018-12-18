@@ -67,9 +67,9 @@ proc `/`*[N: static[int]](a, b: Modulo[N]): Modulo[N] =
 proc `==`*[N: static[int]](a, b: Modulo[N]): bool =
   (a.int - b.int) mod N == 0
 
-proc zero*[N: static[int]](T: type Modulo[N]): T = 0.pmod(N)
+proc zero*[N: static[int]](T: type Modulo[N]): T = T(0)
 
-proc id*[N: static[int]](T: type Modulo[N]): T = 1.pmod(N)
+proc id*[N: static[int]](T: type Modulo[N]): T = T(1)
 
 template `+`*[N: static[int]](a: Modulo[N], b: int): Modulo[N] = a + b.pmod(N)
 
@@ -101,6 +101,9 @@ template `/=`*[N: static[int]](a: var Modulo[N], b: Modulo[N]) =
   let c = a
   a = c / b
 
+proc random*[N: static int](rng: var Rand, T: typedesc[Modulo[N]]): T =
+  Modulo[N](rng.rand(N - 1))
+
 ## Rabin's test for irreducibility, from
 ## Rabin, Michael (1980). "Probabilistic algorithms in finite fields". SIAM Journal on Computing. 9 (2): 273–280
 proc isIrreducible*[N: static[int]](p: Polynomial[Modulo[N]]): bool =
@@ -122,11 +125,12 @@ proc generateIrreduciblePolynomial*(P: static[int], degree: int): Polynomial[Mod
   var
     rng = initRand(12345)
     coefficients = newSeq[Modulo[P]](degree + 1)
-  coefficients[^1] = 1.pmod(P)
+  coefficients[^1] = Modulo[P](1)
   while true:
     for i in 0 ..< degree:
-      coefficients[i] = rng.rand(P - 1).pmod(P)
+      coefficients[i] = rng.random(Modulo[P])
     let randomMonicPolynomial = polynomial(coefficients)
 
     if isIrreducible(randomMonicPolynomial):
       return randomMonicPolynomial
+
