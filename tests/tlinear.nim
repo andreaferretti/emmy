@@ -19,18 +19,18 @@ import emmy, unittest
 suite "test linear algebra operations":
   test "operations over vectors":
     let
-      v = @[1, 2, 3, 4, 5]
-      w = @[3, 2, 5, 1, 1]
-    check(v + w == @[4, 4, 8, 5, 6])
-    check(v - w == @[-2, 0, -2, 3, 4])
+      v = vector(1, 2, 3, 4, 5)
+      w = vector(3, 2, 5, 1, 1)
+    check(v + w == vector(4, 4, 8, 5, 6))
+    check(v - w == vector(-2, 0, -2, 3, 4))
     check(v * w == 31)
 
   test "in place operations over vectors":
-    var v = @[1, 2, 3, 4, 5]
-    let w = @[3, 2, 5, 1, 1]
+    var v = vector(1, 2, 3, 4, 5)
+    let w = vector(3, 2, 5, 1, 1)
     v += w
-    check(v == @[4, 4, 8, 5, 6])
-    v -= @[1, 2, 3, 4, 5]
+    check(v == vector(4, 4, 8, 5, 6))
+    v -= vector(1, 2, 3, 4, 5)
     check(v == w)
 
   test "matrix accessors":
@@ -89,8 +89,8 @@ suite "test linear algebra operations":
         @[1, 2, 3, 4],
         @[2, 3, 5, 2]
       ])
-      v = @[1, 3, 5, 2]
-    check(m * v == @[30, 40])
+      v = vector(1, 3, 5, 2)
+    check(m * v == vector(30, 40))
 
   test "matrix/vector product in row major order":
     let
@@ -98,8 +98,8 @@ suite "test linear algebra operations":
         @[1, 2, 3, 4],
         @[2, 3, 5, 2]
       ], order = rowMajor)
-      v = @[1, 3, 5, 2]
-    check(m * v == @[30, 40])
+      v = vector(1, 3, 5, 2)
+    check(m * v == vector(30, 40))
 
   test "matrix product":
     let
@@ -193,8 +193,8 @@ suite "test linear algebra operations":
         @[2, 1, -1, 4],
         @[0, 1, 1, 5]
       ])
-      v = @[2, 0, 1, 1, -1, 1, 4, 5]
-    check(m.toVector == v)
+      v = vector(2, 0, 1, 1, -1, 1, 4, 5)
+    check(m.asVector == v)
 
   test "matrix to vector sharing":
     var m = matrix(@[
@@ -202,8 +202,8 @@ suite "test linear algebra operations":
       @[0, 1, 1, 5]
     ])
     let
-      v = @[2, 0, 1, 1, -1, 1, 4, 5]
-      w = m.toVector
+      v = vector(2, 0, 1, 1, -1, 1, 4, 5)
+      w = m.asVector
     check(w == v)
     m[0, 0] = 0
     check(w[0] == 0)
