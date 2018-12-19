@@ -119,15 +119,4 @@ proc `*`*[A: Ring](m, n: Matrix[A]): Matrix[A] =
   elif m.order == rowMajor and n.order == colMajor: multiply(result, m, n, rowM, colM)
   else: multiply(result, m, n, rowM, rowM)
 
-proc `$`*[A](m: Matrix[A]): string =
-  result = fmt"Matrix {m.M}x{m.N}:"
-  result &= "\n[\n"
-  for i in 0 ..< m.M:
-    for j in 0 ..< m.N:
-      result &= $(m[i, j])
-      if j + 1 < m.N:
-        result &= "\t"
-    result &= "\n"
-  result &= "]"
-
 export dense
