@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import sequtils
-import ./structures
+import ./structures, ./linear
 
 type Polynomial*[A] = object
   coefficients*: seq[A]
@@ -161,3 +161,14 @@ proc `mod`*[A](s, t: Polynomial[A]): Polynomial[A] =
   r
 
 template `%%`*(s, t: Polynomial): auto = s mod t
+
+proc companionMatrix*[A: Ring](p: Polynomial[A]): Matrix[A] =
+  let
+    z = zero(A)
+    one = id(A)
+    d = deg(p)
+  result = constantMatrix(d + 1, d + 1, z)
+  for i in 0 ..< d:
+    result[i + 1, i] = one
+  for j in 0 .. d:
+    result[j, d] = -(p.coefficients[j])

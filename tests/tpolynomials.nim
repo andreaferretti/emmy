@@ -93,10 +93,24 @@ suite "test polynomials implementation":
     let b = poly(1, 3, -2)
     check(b is Ring)
 
+  test "companion matrix":
+    let
+      a = poly(1, 2, 3, 4, 2, 3)
+      m = matrix(@[
+        @[0, 0, 0, 0, 0, -1],
+        @[1, 0, 0, 0, 0, -2],
+        @[0, 1, 0, 0, 0, -3],
+        @[0, 0, 1, 0, 0, -4],
+        @[0, 0, 0, 1, 0, -2],
+        @[0, 0, 0, 0, 1, -3]
+      ])
+
+    check(a.companionMatrix == m)
+
 
 suite "test polynomials DSL":
   test "polynomial sum":
-    const X = poly(1)
+    const X = X(Polynomial[int])
     let
       p = 2 + 3 * X + 5 * X * X
       q = 1 - 3 * X + 6 * X * X + 8 * X * X * X
