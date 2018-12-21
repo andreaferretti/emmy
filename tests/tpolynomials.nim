@@ -74,20 +74,18 @@ suite "test polynomials implementation":
     check(q div p == poly(6 /// 25, 8 /// 5))
     check(q %% p == poly(13 /// 25, -173 /// 25))
 
-  # TODO: the following cannot work unless modular elements
-  # encode the modulo in their type as a `static[A]`. Modular
-  # elements with variable modulo do not form a ring, hence
-  # polynomial operations on them do not work.
-  #
-  # test "polynomials with modular coefficients":
-  #   let
-  #     p = poly(2.modulo(5), 3.modulo(5), 4.modulo(5))
-  #     q = poly(1.modulo(5), 2.modulo(5), 1.modulo(5))
-  #   check(p + q == 3.modulo(5))
+  test "polynomials with modular coefficients":
+    let
+      p = poly(2.pmod(5), 3.pmod(5), 4.pmod(5))
+      q = poly(1.pmod(5), 2.pmod(5), 1.pmod(5))
+    check(p + q == 3.pmod(5))
 
   test "polynomials over a field are an Euclidean ring":
-    let a = poly(1.0, 3.0, -2.5)
+    let
+      a = poly(1.0, 3.0, -2.5)
+      b = poly(2.pmod(5), 3.pmod(5), 4.pmod(5))
     check(a is EuclideanRing)
+    check(b is EuclideanRing)
 
   test "polynomials over a ring are a ring":
     let b = poly(1, 3, -2)
