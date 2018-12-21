@@ -105,7 +105,7 @@ proc characteristic*[N: static[int]](t: type Modulo[N]): int =
   when isPrime(N): N
   else: {.error: $(N) & " is not prime".}
 
-proc random*[N: static int](rng: var Rand, T: typedesc[Modulo[N]]): T =
+proc random*[N: static int](rng: var Rand, T: type Modulo[N]): T =
   Modulo[N](rng.rand(N - 1))
 
 ## Rabin's test for irreducibility, from

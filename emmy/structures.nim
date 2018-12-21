@@ -37,20 +37,20 @@ type
     T is Ring
     T is MultiplicativeGroup
 
-proc zero*(x: typedesc[int]): int = 0
-proc zero*(x: typedesc[int32]): int32 = 0
-proc zero*(x: typedesc[int64]): int64 = 0
-proc zero*(x: typedesc[float32]): float32 = 0
-proc zero*(x: typedesc[float64]): float64 = 0
+proc zero*(x: type int): int = 0
+proc zero*(x: type int32): int32 = 0
+proc zero*(x: type int64): int64 = 0
+proc zero*(x: type float32): float32 = 0
+proc zero*(x: type float64): float64 = 0
 
-proc id*(x: typedesc[int]): int = 1
-proc id*(x: typedesc[int32]): int32 = 1
-proc id*(x: typedesc[int64]): int64 = 1
-proc id*(x: typedesc[float32]): float32 = 1
-proc id*(x: typedesc[float64]): float64 = 1
+proc id*(x: type int): int = 1
+proc id*(x: type int32): int32 = 1
+proc id*(x: type int64): int64 = 1
+proc id*(x: type float32): float32 = 1
+proc id*(x: type float64): float64 = 1
 
-proc characteristic*(x: typedesc[int]): int = 0
-proc characteristic*(x: typedesc[int32]): int = 0
-proc characteristic*(x: typedesc[int64]): int = 0
-proc characteristic*(x: typedesc[float32]): int = 0
-proc characteristic*(x: typedesc[float64]): int = 0
+proc characteristic*(x: type int): int = 0
+proc characteristic*(x: type int32): int = 0
+proc characteristic*(x: type int64): int = 0
+proc characteristic*(x: type float32): int = 0
+proc characteristic*(x: type float64): int = 0

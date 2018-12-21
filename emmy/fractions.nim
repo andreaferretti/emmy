@@ -76,10 +76,10 @@ proc `==`*[A](x: Fraction[A], y: A): bool = x.a == x.b * y
 
 proc `==`*[A](x: A, y: Fraction[A]): bool = y.a == y.b * x
 
-proc zero*[A](x: typedesc[Fraction[A]]): Fraction[A] =
+proc zero*[A](x: type Fraction[A]): Fraction[A] =
   Fraction[A](a: zero(A), b: id(A))
 
-proc id*[A](x: typedesc[Fraction[A]]): Fraction[A] =
+proc id*[A](x: type Fraction[A]): Fraction[A] =
   Fraction[A](a: id(A), b: id(A))
 
 proc quot*[A](x: A): Fraction[A] =

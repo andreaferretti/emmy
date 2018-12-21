@@ -14,5 +14,5 @@
 
 import stint
 
-proc zero*[N: static int](x: typedesc[StInt[N]]): StInt[N] = 0.stint(N)
-proc id*[N: static int](x: typedesc[StInt[N]]): StInt[N] = 1.stint(N)
+proc zero*[N: static int](x: type StInt[N]): StInt[N] = 0.stint(N)
+proc id*[N: static int](x: type StInt[N]): StInt[N] = 1.stint(N)

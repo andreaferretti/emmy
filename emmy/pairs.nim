@@ -20,7 +20,7 @@ proc `+`*[A: AdditiveMonoid; B: AdditiveMonoid](x, y: tuple[a: A, b: B]): tuple[
     (y1, y2) = y
   return (x1 + y1, x2 + y2)
 
-proc zero*[A: AdditiveMonoid; B: AdditiveMonoid](x: typedesc[tuple[a: A, b: B]]): tuple[a: A, b: B] =
+proc zero*[A: AdditiveMonoid; B: AdditiveMonoid](x: type tuple[a: A, b: B]): tuple[a: A, b: B] =
   (zero(A), zero(B))
 
 proc `-`*[A: AdditiveGroup; B: AdditiveGroup](x, y: tuple[a: A, b: B]): tuple[a: A, b: B] =
@@ -39,5 +39,5 @@ proc `*`*[A: MultiplicativeMonoid; B: MultiplicativeMonoid](x, y: tuple[a: A, b:
     (y1, y2) = y
   return (x1 * y1, x2 * y2)
 
-proc id*[A: MultiplicativeMonoid; B: MultiplicativeMonoid](x: typedesc[tuple[a: A, b: B]]): tuple[a: A, b: B] =
+proc id*[A: MultiplicativeMonoid; B: MultiplicativeMonoid](x: type tuple[a: A, b: B]): tuple[a: A, b: B] =
   (id(A), id(B))

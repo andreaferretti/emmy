@@ -68,13 +68,13 @@ proc `$`*[A](p: Polynomial[A]): string =
         if x == id(A): result &= "X" & "^" & $(i)
         else: result &= $(x) & "*" & "X" & "^" & $(i)
 
-proc zero*[A](x: typedesc[Polynomial[A]]): Polynomial[A] =
+proc zero*[A](x: type Polynomial[A]): Polynomial[A] =
   Polynomial[A](coefficients: @[])
 
-proc id*[A](x: typedesc[Polynomial[A]]): Polynomial[A] =
+proc id*[A](x: type Polynomial[A]): Polynomial[A] =
   poly(id(A))
 
-proc X*[A](x: typedesc[Polynomial[A]]): Polynomial[A] =
+proc X*[A](x: type Polynomial[A]): Polynomial[A] =
   poly(zero(A), id(A))
 
 proc `==`*[A](p: Polynomial[A], q: A): bool =

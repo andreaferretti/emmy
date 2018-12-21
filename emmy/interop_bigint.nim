@@ -14,5 +14,5 @@
 
 import bigints
 
-proc zero*(x: typedesc[BigInt]): BigInt = initBigInt(0)
-proc id*(x: typedesc[BigInt]): BigInt = initBigInt(1)
+proc zero*(x: type BigInt): BigInt = initBigInt(0)
+proc id*(x: type BigInt): BigInt = initBigInt(1)
