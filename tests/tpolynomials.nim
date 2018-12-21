@@ -115,8 +115,8 @@ suite "test polynomials DSL":
   test "polynomial sum":
     const X = X(Polynomial[int])
     let
-      p = 2 + 3 * X + 5 * X * X
-      q = 1 - 3 * X + 6 * X * X + 8 * X * X * X
-      r = 3 + 11 * X * X + 8 * X * X * X
+      p = 2 + 3 * X + 5 * X^2
+      q = 1 - 3 * X + 6 * X^2 + 8 * X^3
+      r = 3 + 11 * X^2 + 8 * X^3
 
     check(p + q == r)

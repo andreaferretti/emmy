@@ -18,7 +18,7 @@ import ./structures
 # We should replace it with a safe Montgomery ladder, see
 # http://cr.yp.to/bib/2003/joye-ladder.pdf
 
-proc power*[A](r: A, n: int): A =
+proc power*[A: Ring](r: A, n: int): A =
   mixin id
   var
     n = n
@@ -29,6 +29,17 @@ proc power*[A](r: A, n: int): A =
       result = result * s
     s = s * s
     n = n div 2
+
+proc power*[A: Ring](r: A, n: static[int]): A =
+  when n == 2: r * r
+  elif n == 3: r * r * r
+  elif n == 4:
+    let y = r * r
+    y * y
+  else:
+    let m = n
+    power(r, m)
+
 
 template `^`*(r: Ring, n: int): auto = power(r, n)
 
