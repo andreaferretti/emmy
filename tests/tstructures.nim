@@ -52,3 +52,10 @@ suite "known types implement appropriate typeclasses":
   test "rationals over bigints are a field":
     let a = initBigInt(5) /// initBigInt(12)
     check(a is Field)
+
+  test "known types have the expected characteristic":
+    check(characteristic(int) == 0)
+    check(characteristic(int32) == 0)
+    check(characteristic(int64) == 0)
+    check(characteristic(float32) == 0)
+    check(characteristic(float64) == 0)

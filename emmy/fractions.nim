@@ -86,3 +86,5 @@ proc quot*[A](x: A): Fraction[A] =
   Fraction[A](a: x, b: id(A))
 
 proc `///`*[A](a: A, b: A): Fraction[A] = Fraction[A](a: a, b: b)
+
+proc characteristic*[A: Ring](t: type Fraction[A]): int = characteristic(A)

@@ -85,3 +85,12 @@ suite "test integers modulo N implementations":
       p = p1 * p2
 
     check(not p.isIrreducible)
+
+  test "characteristic of integers modulo N":
+    check(characteristic(Modulo[5]) == 5)
+    check(characteristic(Modulo[7]) == 7)
+    check(characteristic(Modulo[13]) == 13)
+    when compiles(characteristic(Modulo[8])):
+      fail
+    when compiles(characteristic(Modulo[21])):
+      fail

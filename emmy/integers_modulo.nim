@@ -101,6 +101,10 @@ template `/=`*[N: static[int]](a: var Modulo[N], b: Modulo[N]) =
   let c = a
   a = c / b
 
+proc characteristic*[N: static[int]](t: type Modulo[N]): int =
+  when isPrime(N): N
+  else: {.error: $(N) & " is not prime".}
+
 proc random*[N: static int](rng: var Rand, T: typedesc[Modulo[N]]): T =
   Modulo[N](rng.rand(N - 1))
 

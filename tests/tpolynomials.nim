@@ -91,6 +91,11 @@ suite "test polynomials implementation":
     let b = poly(1, 3, -2)
     check(b is Ring)
 
+  test "characteristic of polynomial rings":
+    check(characteristic(Polynomial[int]) == 0)
+    check(characteristic(Polynomial[float64]) == 0)
+    check(characteristic(Polynomial[Modulo[13]]) == 13)
+
   test "companion matrix":
     let
       a = poly(1, 2, 3, 4, 2, 3)

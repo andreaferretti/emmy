@@ -43,3 +43,6 @@ suite "test fraction fields":
   test "conversion of constants to fractions":
     check(5.quot == 5 /// 1)
     check(12.quot == 12 /// 1)
+
+  test "characteristic of fraction fields":
+    check(characteristic(Fraction[int]) == 0)

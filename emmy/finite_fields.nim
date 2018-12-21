@@ -48,9 +48,10 @@ template makeFiniteField(N: int): untyped =
 
     let alpha = FF(poly(Base(0), Base(1)))
 
-    proc gen(T: typedesc[FF]): FF = alpha
-    proc zero(T: typedesc[FF]): FF = FF(poly())
-    proc id(T: typedesc[FF]): FF = FF(poly(Base(1)))
+    proc gen(T: type FF): FF = alpha
+    proc zero(T: type FF): FF = FF(poly())
+    proc id(T: type FF): FF = FF(poly(Base(1)))
+    proc characteristic(T: type FF): int = P
 
     proc `$`(a: FF): string =
       let f = PBase(a)

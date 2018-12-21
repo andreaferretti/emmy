@@ -162,6 +162,8 @@ proc `mod`*[A](s, t: Polynomial[A]): Polynomial[A] =
 
 template `%%`*(s, t: Polynomial): auto = s mod t
 
+proc characteristic*[A: Ring](t: type Polynomial[A]): int = characteristic(A)
+
 proc companionMatrix*[A: Ring](p: Polynomial[A]): Matrix[A] =
   let
     z = zero(A)

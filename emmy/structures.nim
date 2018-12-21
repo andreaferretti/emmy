@@ -48,3 +48,9 @@ proc id*(x: typedesc[int32]): int32 = 1
 proc id*(x: typedesc[int64]): int64 = 1
 proc id*(x: typedesc[float32]): float32 = 1
 proc id*(x: typedesc[float64]): float64 = 1
+
+proc characteristic*(x: typedesc[int]): int = 0
+proc characteristic*(x: typedesc[int32]): int = 0
+proc characteristic*(x: typedesc[int64]): int = 0
+proc characteristic*(x: typedesc[float32]): int = 0
+proc characteristic*(x: typedesc[float64]): int = 0

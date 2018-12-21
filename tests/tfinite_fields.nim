@@ -24,3 +24,7 @@ suite "test finite fields implementations":
       gamma = id(FF8) + alpha * alpha
     check(beta == gamma)
     check(beta / alpha == alpha * alpha)
+
+  test "characteristic of finite fields":
+    finiteField(49, FF49)
+    check(characteristic(FF49) == 7)
