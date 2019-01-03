@@ -83,6 +83,17 @@ proc `==`*[A](p: Polynomial[A], q: A): bool =
 proc `==`*[A](p: A, q: Polynomial[A]): bool =
   (q.deg == -1 and p == zero(A)) or (q.deg == 0 and q.coefficients[0] == p)
 
+# Horner's rule
+proc at*[A: Ring](p: Polynomial[A], a: A): A =
+  if p.coefficients.len == 0:
+    result = zero(A)
+  else:
+    result = p.coefficients[^1]
+    for i in countdown(p.coefficients.len - 2, 0):
+      result = result * a + p.coefficients[i]
+
+# template `()`*[A: Ring](p: Polynomial[A], a: A): A = p.at(a)
+
 proc sumSeq[A](s, t: seq[A]): seq[A] =
   if s.len >= t.len:
     result = newSeq[A](s.len)

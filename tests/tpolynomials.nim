@@ -110,6 +110,17 @@ suite "test polynomials implementation":
 
     check(a.companionMatrix == m)
 
+  # test "polynomial GCD":
+  #   let
+  #     one = 1 /// 1
+  #     two = 2 /// 1
+  #     three = 3 /// 1
+  #     p = poly(one, one, one)
+  #     q = poly(one, two, three)
+  #     r = poly(one, two, three, one)
+
+  #   check(gcd(p * q, p * r) == p)
+  #   check(gcd(p * q, p * r + one) == poly(one))
 
 suite "test polynomials DSL":
   test "polynomial sum":
@@ -120,3 +131,26 @@ suite "test polynomials DSL":
       r = 3 + 11 * X^2 + 8 * X^3
 
     check(p + q == r)
+
+suite "test polynomial evaluation":
+  test "evaluation of the zero polynomial":
+    let p = zero(Polynomial[int])
+    check(p.at(0) == 0)
+    check(p.at(-1) == 0)
+    check(p.at(1) == 0)
+    check(p.at(2) == 0)
+
+  test "evaluation of a constant polynomial":
+    let p = poly(3)
+    check(p.at(0) == 3)
+    check(p.at(-1) == 3)
+    check(p.at(1) == 3)
+    check(p.at(2) == 3)
+
+  test "evaluation of a higher degree polynomial":
+    const X = X(Polynomial[int])
+    let p = 1 - 3 * X + 6 * X^2 + 8 * X^3
+    check(p.at(0) == 1)
+    check(p.at(-1) == 2)
+    check(p.at(1) == 12)
+    check(p.at(2) == 83)
