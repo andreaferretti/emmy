@@ -83,13 +83,23 @@ proc `==`*[A](p: Polynomial[A], q: A): bool =
 proc `==`*[A](p: A, q: Polynomial[A]): bool =
   (q.deg == -1 and p == zero(A)) or (q.deg == 0 and q.coefficients[0] == p)
 
+proc monic*[A: Field](p: Polynomial[A]): Polynomial[A] =
+  if p.coefficients.len == 0:
+    raise newException(DivByZeroError, "cannot normalize the zero polynomial")
+  else:
+    result = p
+    let k = id(A) / result.coefficients[^1]
+    for i in 0 ..< high(result.coefficients):
+      result.coefficients[i] = result.coefficients[i] * k
+    result.coefficients[^1] = id(A)
+
 # Horner's rule
 proc at*[A: Ring](p: Polynomial[A], a: A): A =
   if p.coefficients.len == 0:
     result = zero(A)
   else:
     result = p.coefficients[^1]
-    for i in countdown(p.coefficients.len - 2, 0):
+    for i in countdown(high(p.coefficients) - 1, 0):
       result = result * a + p.coefficients[i]
 
 # template `()`*[A: Ring](p: Polynomial[A], a: A): A = p.at(a)

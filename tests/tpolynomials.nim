@@ -110,17 +110,17 @@ suite "test polynomials implementation":
 
     check(a.companionMatrix == m)
 
-  # test "polynomial GCD":
-  #   let
-  #     one = 1 /// 1
-  #     two = 2 /// 1
-  #     three = 3 /// 1
-  #     p = poly(one, one, one)
-  #     q = poly(one, two, three)
-  #     r = poly(one, two, three, one)
+  test "polynomial GCD":
+    let
+      one = 1.pmod(5)
+      two = 2.pmod(5)
+      three = 3.pmod(5)
+      p = poly(one, one, one)
+      q = poly(one, two, three)
+      r = poly(one, two, three, one)
 
-  #   check(gcd(p * q, p * r) == p)
-  #   check(gcd(p * q, p * r + one) == poly(one))
+    check(gcd(p * q, p * r).monic == p)
+    check(gcd(p * q, p * r + one).monic == poly(one))
 
 suite "test polynomials DSL":
   test "polynomial sum":
