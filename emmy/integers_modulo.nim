@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import random
-import ./structures, ./primality, ./operations, ./polynomials
+import  ./primality, ./operations, ./polynomials
 
 ## The following type is meant to be used when the modulo is known
 ## statically. It has better properties than its dynamic counterpart -

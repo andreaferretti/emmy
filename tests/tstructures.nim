@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import emmy, unittest, tables, bigints, stint
+import emmy, unittest, tables, stint, bigints, stint
 import emmy/interop_bigint
 import emmy/interop_stint
 
@@ -26,7 +26,7 @@ suite "known types implement appropriate typeclasses":
     check(initBigInt(1) is EuclideanRing)
 
   test "stack integers are an Euclidean ring":
-    check(1.stint(8) is AdditiveMonoid) # TODO: fix after https://github.com/status-im/nim-stint/issues/72
+    check(1.stint(8) is AdditiveGroup) # TODO: fix after https://github.com/status-im/nim-stint/issues/72
 
   test "reals are a field":
     check(1.0 is Field)

@@ -15,14 +15,14 @@
 mode = ScriptMode.Verbose
 
 packageName   = "emmy"
-version       = "0.1.0"
+version       = "0.2.0"
 author        = "Andrea Ferretti"
 description   = "Algebra for Nim"
 license       = "Apache2"
 skipDirs      = @["tests"]
 skipFiles     = @["emmy.html", "emmy.png"]
 
-requires "nim >= 0.19", "neo >= 0.2.4", "bigints >= 0.4.2", "stint >= 0.0.1"
+requires "nim >= 0.19", "neo >= 0.2.4", "bigints >= 0.4.3", "stint >= 0.0.1"
 
 --forceBuild
 
@@ -35,6 +35,7 @@ task tests, "run emmy tests":
   --path: "."
   --run
   --define: reportConceptFailures
+  --showAllMismatches:on
   setCommand "c", "tests/all.nim"
 
 task test, "run emmy tests":
